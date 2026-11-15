@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Game UI Designer Jeon Sang Cheol · HOLZ, GAKE, Act Seven, Studio B Side에서 작업한 모바일 게임 11개의 UI 포트폴리오">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Game UI Portfolio (Jeon Sang Cheol)">
+<meta property="og:description" content="Game UI Designer Jeon Sang Cheol · HOLZ, GAKE, Act Seven, Studio B Side에서 작업한 모바일 게임 11개의 UI 포트폴리오">
+<meta property="og:image" content="https://melldongame.github.io/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://melldongame.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+</style>
+<title>Game UI Portfolio (Jeon Sang Cheol)</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+/* Layout: quiet index of 16:9 title-screen covers; each opens a detail page with meta strip and a screen gallery */
+:root {
+  --bg: #F3F4F2;
+  --surface: #FFFFFF;
+  --fg: #151715;
+  --muted: #697068;
+  --line: #DCE0D9;
+  --accent: #2E55E6;
+  --font-display: "Archivo", "IBM Plex Sans KR", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1110; --surface: #181B19; --fg: #ECEEE9; --muted: #8F968D; --line: #2A2F2B; --accent: #8199FF;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1110; --surface: #181B19; --fg: #ECEEE9; --muted: #8F968D; --line: #2A2F2B; --accent: #8199FF;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 80px;
+}
+@media (min-width: 720px) {
+  .wrap { padding-left: max(40px, env(safe-area-inset-left, 0px)); padding-right: max(40px, env(safe-area-inset-right, 0px)); }
+}
+
+/* Header */
+.top {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px;
+  padding-bottom: 20px; border-bottom: 1px solid var(--line);
+}
+.brand { text-decoration: none; display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+.brand b { font-family: var(--font-display); font-weight: 800; font-size: 18px; letter-spacing: -0.01em; }
+.brand span, .contact { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+.contact { user-select: all; text-transform: none; }
+
+/* Index */
+.intro { display: grid; gap: 16px; padding-block: 56px 40px; }
+.intro h1 {
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(30px, 5vw, 52px);
+  line-height: 1.08; letter-spacing: -0.025em; margin: 0; max-width: 16ch; text-wrap: balance;
+}
+.intro p { margin: 0; color: var(--muted); max-width: 52ch; }
+.count { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* App icon shelf, Google Play style */
+.apps { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 160px)); gap: 36px 28px; }
+.app { text-decoration: none; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.icon {
+  aspect-ratio: 1; max-width: 100%; border-radius: 22%; overflow: hidden; background: var(--line);
+  box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 10px 24px -12px rgba(0,0,0,.4);
+  transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s;
+}
+.icon img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ph-icon { display: grid; place-items: center; color: #fff; font-family: var(--font-display); font-weight: 800; font-size: 40px; letter-spacing: 0.02em; }
+.app:hover .icon, .app:focus-visible .icon { transform: translateY(-4px); box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 18px 32px -14px rgba(0,0,0,.5); }
+.app:focus-visible { outline: none; }
+.app:focus-visible .icon { outline: 2px solid var(--accent); outline-offset: 4px; }
+.app-name { display: grid; gap: 2px; }
+.app-name b { font-family: var(--font-display); font-weight: 700; font-size: 15px; line-height: 1.3; }
+.app-name span { font-size: 12px; color: var(--muted); }
+.app:hover b { color: var(--accent); }
+
+/* Company sections, newest first */
+.company + .company { margin-top: 64px; }
+.co-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px; padding-bottom: 12px; margin-bottom: 28px; border-bottom: 1px solid var(--line); }
+.co-head h2 { font-family: var(--font-display); font-weight: 700; font-size: 20px; letter-spacing: -0.01em; margin: 0; }
+.co-head span { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) { .icon { transition: none; } }
+
+/* Shots: real images or generated placeholders */
+.shot { position: relative; overflow: hidden; border-radius: 6px; background: var(--line); max-width: 100%; aspect-ratio: 16 / 9; }
+.shot.portrait { aspect-ratio: 9 / 16; }
+.shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.shot.has-img { aspect-ratio: auto; background: transparent; }
+.shot.has-img img { height: auto; }
+.ph { position: absolute; inset: 0; color: #fff; display: grid; }
+.ph-title { place-items: center; text-align: center; }
+.ph-title .logo { font-family: var(--font-display); font-weight: 800; font-size: clamp(22px, 4.4cqw, 54px); letter-spacing: 0.04em; line-height: 1; text-shadow: 0 4px 24px rgba(0,0,0,.35); }
+.ph-title .sub { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.3em; opacity: .8; margin-top: 10px; }
+.ph-title .tap { position: absolute; bottom: 9%; left: 0; right: 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.32em; animation: blink 1.6s ease-in-out infinite; }
+.shot { container-type: inline-size; }
+.portrait .ph-title .logo { font-size: clamp(20px, 11cqw, 48px); }
+@keyframes blink { 50% { opacity: .25; } }
+
+.ph-ui { grid-template-rows: auto 1fr auto; gap: 6%; padding: 5%; }
+.ph-ui .bar { display: flex; gap: 3%; }
+.ph-ui .bar i { display: block; height: clamp(8px, 3cqw, 18px); border-radius: 99px; background: rgba(255,255,255,.22); flex: 1; }
+.ph-ui .bar i:first-child { flex: 2.4; background: rgba(255,255,255,.4); }
+.ph-ui .body { display: grid; grid-template-columns: repeat(var(--cols, 4), 1fr); gap: 4%; align-content: start; }
+.ph-ui .body i { display: block; aspect-ratio: 1; border-radius: 10%; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.18); }
+.ph-ui .label {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  background: rgba(0,0,0,.45); padding: 6px 10px; border-radius: 4px; white-space: nowrap;
+}
+
+/* Detail */
+.back { display: inline-flex; gap: 8px; align-items: center; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--muted); text-decoration: none; margin-top: 32px; }
+.back:hover { color: var(--accent); }
+.d-head { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 24px; padding-block: 28px 32px; }
+.d-head .icon { width: clamp(64px, 12vw, 104px); }
+.d-head > div:last-child { display: grid; gap: 6px; }
+.d-head h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(34px, 6vw, 68px); line-height: 1; letter-spacing: -0.03em; margin: 0; text-wrap: balance; }
+.d-head .ko { color: var(--muted); font-size: 15px; }
+.meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 36px 0 0; }
+.meta div { padding: 16px 16px 16px 0; min-width: 0; }
+.meta div + div { padding-left: 16px; border-left: 1px solid var(--line); }
+.meta dt { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.meta dd { margin: 4px 0 0; font-weight: 500; }
+@media (max-width: 640px) {
+  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .meta div:nth-child(3) { padding-left: 0; border-left: 0; }
+  .meta div:nth-child(n+3) { border-top: 1px solid var(--line); }
+}
+.overview { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 24px 48px; padding-block: 40px 56px; }
+.overview h3, .gallery-head { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin: 0; }
+.overview p { margin: 0; max-width: 62ch; }
+@media (max-width: 720px) { .overview { grid-template-columns: 1fr; } }
+
+.gallery-head { padding-bottom: 16px; border-bottom: 1px solid var(--line); margin-bottom: 28px; display: flex; justify-content: space-between; }
+/* Mixed gallery: landscape screens take a full row, portrait screens sit three to a row (two on phones) */
+.gallery { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 40px 20px; align-items: start; }
+.gallery figure.landscape { grid-column: span 6; }
+.gallery figure.portrait { grid-column: span 2; }
+@media (max-width: 640px) { .gallery figure.portrait { grid-column: span 3; } }
+.empty { margin: 0; color: var(--muted); }
+figure { margin: 0; display: grid; gap: 10px; min-width: 0; }
+figure .shot { cursor: zoom-in; }
+figcaption { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+figcaption b { font-weight: 600; }
+figcaption span { color: var(--muted); font-size: 14px; }
+
+.pager { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 80px; border-top: 1px solid var(--line); padding-top: 24px; }
+.pager a { text-decoration: none; display: grid; gap: 2px; }
+.pager a:last-child { text-align: right; }
+.pager small { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.pager b { font-family: var(--font-display); font-size: clamp(16px, 2.4vw, 22px); }
+.pager a:hover b { color: var(--accent); }
+
+footer { margin-top: 80px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+
+/* Lightbox */
+.lb { position: fixed; inset: 0; z-index: 50; background: rgba(8,9,8,.88); display: grid; place-items: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); cursor: zoom-out; }
+.lb .shot { width: min(94vw, calc(86vh * 16 / 9)); border-radius: 8px; }
+.lb .shot.portrait { width: min(94vw, calc(86vh * 9 / 16)); }
+.lb .shot.has-img { width: auto; }
+.lb .shot.has-img img { width: auto; max-width: 94vw; max-height: 86vh; }
+.lb .cap { color: #ECEEE9; font-size: 14px; margin-top: 12px; text-align: center; }
+
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .ph-title .tap { animation: none; }
+  .card .shot { transition: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#">
+      <b>Jeon Sang Cheol</b>
+      <span>Game UI Designer</span>
+    </a>
+    <span class="contact">melldon@naver.com</span>
+  </header>
+  <main id="app"></main>
+  <footer>© 2026 Jeon Sang Cheol</footer>
+</div>
+<div class="lb" id="lb" hidden></div>
+
+<script>
+// Replace each project's cover / screens[].src with real image paths (e.g. "images/nova/title.png").
+// Leave src empty to show the generated placeholder.
+// Each screen can set orient: "portrait" | "landscape" (defaults to the project's orient).
+const projects = [
+  {
+    id: "counter-side", title: "COUNTER SIDE", ko: "카운터사이드",
+    genre: "어반 판타지 RPG", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    orient: "landscape", hue: [226, 252], cover: "", icon: "images/counterside/icon.jpg",
+    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
+    screens: []
+  },
+  {
+    id: "sonyeo-chongsa", title: "소녀총사 키우기", ko: "",
+    genre: "방치형 RPG", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    orient: "portrait", hue: [22, 40], cover: "", icon: "images/sonyeo-chongsa/icon.jpg",
+    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
+    screens: []
+  },
+  {
+    id: "eternal-heroes", title: "이터널 히어로즈", ko: "",
+    genre: "방치형 RPG", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    orient: "landscape", hue: [42, 268], cover: "", icon: "images/eternal-heroes/icon.jpg",
+    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
+    screens: []
+  },
+  {
+    id: "dragon-slayer", title: "드래곤 슬레이어 키우기", ko: "",
+    genre: "방치형 RPG", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    orient: "portrait", hue: [214, 196], cover: "", icon: "images/dragon-slayer/icon.jpg",
+    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
+    screens: []
+  },
+  {
+    id: "gotcha", title: "갓쳐", ko: "",
+    genre: "방치형 타워 디펜스", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    orient: "landscape", hue: [222, 200], cover: "", icon: "images/gotcha/icon.jpg",
+    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
+    screens: []
+  },
+  {
+    id: "cat-fortress", title: "고양이 요새", ko: "",
+    genre: "방치형 디펜스", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    orient: "portrait", hue: [12, 36], cover: "", icon: "images/cat-fortress/icon.jpg",
+    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
+    screens: []
+  },
+  {
+    id: "surprise-defense", title: "깜짝 디펜스", ko: "",
+    genre: "전략 타워 디펜스", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    orient: "portrait", hue: [196, 150], cover: "", icon: "images/surprise-defense/icon.jpg",
+    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
+    screens: []
+  },
+  {
+    id: "mad-truck", title: "매드 트럭", ko: "",
+    genre: "머지 디펜스", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    orient: "portrait", hue: [32, 90], cover: "", icon: "images/mad-truck/icon.jpg",
+    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
+    screens: []
+  },
+  {
+    id: "block-the-gate", title: "입구 틀어 막기", ko: "",
+    genre: "전략 타워 디펜스", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    orient: "portrait", hue: [44, 232], cover: "", icon: "images/block-the-gate/icon.jpg",
+    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
+    screens: []
+  },
+  {
+    id: "marine-too-strong", title: "마린이 너무 강함", ko: "",
+    genre: "로그라이크 디펜스", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    orient: "portrait", hue: [36, 226], cover: "", icon: "images/marine-too-strong/icon.jpg",
+    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
+    screens: []
+  },
+  {
+    id: "poker-random-arena", title: "포커 랜덤 아레나", ko: "",
+    genre: "포커 디펜스", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    orient: "portrait", hue: [152, 4], cover: "", icon: "images/poker-random-arena/icon.jpg",
+    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
+    screens: []
+  }
+];
+
+// Companies, newest first. Projects show in the order listed in ids.
+const companies = [
+  { name: "HOLZ", period: "2026", ids: ["poker-random-arena"] },
+  { name: "GAKE", period: "2024 – 2026", ids: ["marine-too-strong", "block-the-gate", "mad-truck", "surprise-defense", "cat-fortress"] },
+  { name: "Act Seven", period: "2023 – 2024", ids: ["gotcha", "dragon-slayer", "eternal-heroes", "sonyeo-chongsa"] },
+  { name: "Studio B Side", period: "2020 – 2022", ids: ["counter-side"] }
+];
+const byId = id => projects.find(p => p.id === id);
+const ordered = companies.flatMap(c => c.ids.map(byId));
+const companyOf = p => companies.find(c => c.ids.includes(p.id));
+
+const app = document.getElementById("app");
+const lb = document.getElementById("lb");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+function shot(p, s, { orient = s.orient || p.orient, src, crop } = {}) {
+  const cls = "shot" + (orient === "portrait" ? " portrait" : "") + (src && !crop ? " has-img" : "");
+  if (src) return `<div class="${cls}"><img src="${esc(src)}" alt="${esc(p.title + " " + s.name)}" loading="lazy"></div>`;
+  const [h1, h2] = p.hue;
+  const bg = `background: linear-gradient(140deg, hsl(${h1} 55% 22%), hsl(${h2} 62% 44%));`;
+  if (s.kind === "title") {
+    return `<div class="${cls}" role="img" aria-label="${esc(p.title)} 타이틀 화면 자리"><div class="ph ph-title" style="${bg}">
+      <div><div class="logo">${esc(p.title)}</div><div class="sub">${esc(p.genre)}</div></div>
+      <div class="tap">TAP TO START</div></div></div>`;
+  }
+  const tiles = "<i></i>".repeat((s.cols || 4) * (orient === "portrait" ? 3 : 2));
+  return `<div class="${cls}" role="img" aria-label="${esc(s.name)} 화면 자리"><div class="ph ph-ui" style="${bg}">
+    <div class="bar"><i></i><i></i><i></i></div>
+    <div class="body" style="--cols:${s.cols || 4}">${tiles}</div>
+    <div class="bar"><i></i><i></i><i></i><i></i></div>
+    <span class="label">${esc(s.name)}</span></div></div>`;
+}
+
+function icon(p) {
+  if (p.icon) return `<div class="icon"><img src="${esc(p.icon)}" alt="${esc(p.title)} 앱 아이콘"></div>`;
+  const [h1, h2] = p.hue;
+  const initials = p.title.split(" ").map(w => w[0]).join("").slice(0, 2);
+  return `<div class="icon ph-icon" role="img" aria-label="${esc(p.title)} 아이콘 자리" style="background: linear-gradient(140deg, hsl(${h1} 55% 24%), hsl(${h2} 62% 46%));">${esc(initials)}</div>`;
+}
+
+function renderIndex() {
+  document.title = "Game UI Portfolio (Jeon Sang Cheol)";
+  app.innerHTML = `
+    <section class="intro">
+      <span class="count">Projects ${String(projects.length).padStart(2, "0")}</span>
+      <h1>플레이어가 먼저 이해하는 화면을 만듭니다</h1>
+      <p>모바일 게임 UI 디자이너입니다. 아이콘을 누르면 프로젝트별 화면 설계를 볼 수 있습니다.</p>
+    </section>
+    ${companies.map(c => `
+      <section class="company">
+        <header class="co-head"><h2>${esc(c.name)}</h2><span>${esc(c.period)}</span></header>
+        <div class="apps">
+          ${c.ids.map(byId).map(p => `
+            <a class="app" href="#${p.id}">
+              ${icon(p)}
+              <div class="app-name"><b>${esc(p.title)}</b><span>${esc(p.genre)}</span></div>
+            </a>`).join("")}
+        </div>
+      </section>`).join("")}`;
+}
+
+function renderDetail(p) {
+  document.title = p.title + " · Game UI Portfolio";
+  const i = ordered.indexOf(p);
+  const prev = ordered[(i - 1 + ordered.length) % ordered.length];
+  const next = ordered[(i + 1) % ordered.length];
+  const co = companyOf(p);
+  const sub = [p.ko, co && `${co.name} · ${co.period}`].filter(Boolean).join(" · ");
+  app.innerHTML = `
+    <a class="back" href="#">← 전체 프로젝트</a>
+    <section class="d-head">
+      ${icon(p)}
+      <div>
+        <h1>${esc(p.title)}</h1>
+        ${sub ? `<span class="ko">${esc(sub)}</span>` : ""}
+      </div>
+    </section>
+    ${shot(p, { kind: "title", name: "타이틀" }, { orient: "landscape", src: p.cover, crop: true })}
+    <dl class="meta">
+      <div><dt>Genre</dt><dd>${esc(p.genre)}</dd></div>
+      <div><dt>Role</dt><dd>${esc(p.role)}</dd></div>
+      <div><dt>Year</dt><dd>${esc(p.year)}</dd></div>
+      <div><dt>Tools</dt><dd>${esc(p.tools)}</dd></div>
+    </dl>
+    <section class="overview">
+      <h3>Overview</h3>
+      <p>${esc(p.summary)}</p>
+    </section>
+    <div class="gallery-head"><span>Screens</span><span>${p.screens.length}</span></div>
+    ${p.screens.length ? "" : `<p class="empty">화면 이미지를 준비하고 있습니다.</p>`}
+    <section class="gallery">
+      ${p.screens.map((s, n) => `
+        <figure class="${s.orient || p.orient}" data-n="${n}">
+          ${shot(p, s, { src: s.src })}
+          <figcaption><b>${esc(s.name)}</b>${s.note ? `<span>${esc(s.note)}</span>` : ""}</figcaption>
+        </figure>`).join("")}
+    </section>
+    <nav class="pager">
+      <a href="#${prev.id}"><small>이전 프로젝트</small><b>${esc(prev.title)}</b></a>
+      <a href="#${next.id}"><small>다음 프로젝트</small><b>${esc(next.title)}</b></a>
+    </nav>`;
+  app.querySelectorAll("figure").forEach(f => {
+    f.querySelector(".shot").addEventListener("click", () => {
+      const s = p.screens[+f.dataset.n];
+      lb.innerHTML = `<div>${shot(p, s, { src: s.src })}<div class="cap">${esc(s.name)}</div></div>`;
+      lb.hidden = false;
+    });
+  });
+}
+
+function route() {
+  const id = location.hash.slice(1);
+  const p = projects.find(x => x.id === id);
+  lb.hidden = true;
+  p ? renderDetail(p) : renderIndex();
+  window.scrollTo(0, 0);
+}
+
+lb.addEventListener("click", () => { lb.hidden = true; });
+document.addEventListener("keydown", e => { if (e.key === "Escape") lb.hidden = true; });
+window.addEventListener("hashchange", route);
+route();
+</script>
+</body>
+</html>
