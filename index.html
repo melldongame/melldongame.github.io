@@ -106,6 +106,26 @@ a { color: inherit; }
 .app-name span { font-size: 12px; color: var(--muted); }
 .app:hover b { color: var(--accent); }
 
+/* Hover preview card for app icons (pointer devices only) */
+.pv {
+  position: fixed; z-index: 40; width: 340px; max-width: calc(100vw - 32px); padding: 10px; border-radius: 12px;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: 0 24px 48px -20px rgba(0,0,0,.45);
+  display: grid; gap: 8px; pointer-events: none;
+  opacity: 0; transform: translateY(6px); transition: opacity .18s, transform .18s;
+}
+.pv.on { opacity: 1; transform: none; }
+.pv img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.pv-cover { aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden; background: var(--line); }
+.pv-thumbs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.pv-thumbs div { aspect-ratio: 16 / 10; border-radius: 4px; overflow: hidden; background: var(--line); }
+.pv-meta { display: grid; gap: 2px; padding: 4px 2px 2px; }
+.pv-meta b { font-family: var(--font-display); font-size: 15px; }
+.pv-meta span { font-size: 12px; color: var(--muted); }
+.pv-empty { display: grid; place-items: center; aspect-ratio: 16 / 9; border-radius: 6px; background: var(--bg); color: var(--muted); font-size: 13px; }
+.pv-empty .icon { width: 72px; box-shadow: none; }
+@media (hover: none) { .pv { display: none; } }
+@media (prefers-reduced-motion: reduce) { .pv { transition: none; } }
+
 /* Company sections, newest first */
 .company + .company { margin-top: 64px; }
 .co-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px; padding-bottom: 12px; margin-bottom: 28px; border-bottom: 1px solid var(--line); }
@@ -145,16 +165,17 @@ a { color: inherit; }
 .back:hover { color: var(--accent); }
 .d-head { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 24px; padding-block: 28px 32px; }
 .d-head .icon { width: clamp(64px, 12vw, 104px); }
-.d-head > div:last-child { display: grid; gap: 6px; }
-.d-head h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(34px, 6vw, 68px); line-height: 1; letter-spacing: -0.03em; margin: 0; text-wrap: balance; }
+.d-head > div:last-child { display: grid; gap: 6px; min-width: 0; }
+@media (max-width: 480px) { .d-head { grid-template-columns: 1fr; gap: 16px; } }
+.d-head h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 6vw, 68px); line-height: 1; letter-spacing: -0.03em; margin: 0; text-wrap: balance; overflow-wrap: anywhere; }
 .d-head .ko { color: var(--muted); font-size: 15px; }
-.meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 36px 0 0; }
+.meta { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 36px 0 0; }
 .meta div { padding: 16px 16px 16px 0; min-width: 0; }
 .meta div + div { padding-left: 16px; border-left: 1px solid var(--line); }
 .meta dt { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
 .meta dd { margin: 4px 0 0; font-weight: 500; }
 @media (max-width: 640px) {
-  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .meta { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .meta div:nth-child(3) { padding-left: 0; border-left: 0; }
   .meta div:nth-child(n+3) { border-top: 1px solid var(--line); }
 }
@@ -170,6 +191,41 @@ a { color: inherit; }
 .gallery figure.portrait { grid-column: span 2; }
 @media (max-width: 640px) { .gallery figure.portrait { grid-column: span 3; } }
 .empty { margin: 0; color: var(--muted); }
+
+/* Work sections: section > group > tiles; the lead tile of a group spans the full row */
+.sec + .sec { margin-top: 88px; }
+.sec-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-bottom: 14px; margin-bottom: 32px; border-bottom: 1px solid var(--fg); }
+.sec-head h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(24px, 3.4vw, 32px); letter-spacing: -0.02em; margin: 0; }
+.sec-head span { font-family: var(--font-mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.grp + .grp { margin-top: 56px; }
+.grp-head { display: grid; gap: 4px; margin-bottom: 18px; }
+.grp-head h3 { font-size: 17px; font-weight: 600; margin: 0; }
+.grp-head p { margin: 0; color: var(--muted); font-size: 14px; max-width: 62ch; }
+.tiles { display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)); gap: 28px 16px; }
+.tiles.lead > .tile:first-child { grid-column: 1 / -1; }
+.tile { margin: 0; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.tile button { display: block; width: 100%; padding: 0; border: 0; border-radius: 6px; overflow: hidden; background: var(--line); cursor: zoom-in; }
+.tile img { display: block; width: 100%; height: auto; object-fit: cover; transition: transform .45s cubic-bezier(.2,.7,.2,1); }
+.tile button:hover img { transform: scale(1.025); }
+.tile button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.tile figcaption { font-size: 13px; color: var(--muted); line-height: 1.4; }
+.tiles.lead > .tile:first-child figcaption { font-size: 14px; }
+@media (max-width: 720px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; } }
+@media (max-width: 480px) { .tiles[data-cols="2"] { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .tile img { transition: none; } }
+
+.lb-fig { margin: 0; display: grid; gap: 12px; justify-items: center; cursor: default; }
+.lb-fig img { display: block; max-width: min(94vw, 1600px); max-height: 82vh; width: auto; height: auto; border-radius: 6px; }
+.lb-fig figcaption { color: #ECEEE9; font-size: 14px; text-align: center; }
+.lb-fig figcaption span { font-family: var(--font-mono); font-size: 12px; color: #8F968D; margin-left: 10px; font-variant-numeric: tabular-nums; }
+.lb-nav {
+  position: fixed; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border: 0; border-radius: 50%;
+  background: rgba(255,255,255,.14); color: #fff; font-size: 26px; line-height: 1; cursor: pointer;
+}
+.lb-nav:hover { background: rgba(255,255,255,.26); }
+.lb-prev { left: max(16px, env(safe-area-inset-left, 0px)); }
+.lb-next { right: max(16px, env(safe-area-inset-right, 0px)); }
+@media (max-width: 720px) { .lb-nav { top: auto; bottom: max(16px, env(safe-area-inset-bottom, 0px)); transform: none; } }
 figure { margin: 0; display: grid; gap: 10px; min-width: 0; }
 figure .shot { cursor: zoom-in; }
 figcaption { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
@@ -221,10 +277,79 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 const projects = [
   {
     id: "counter-side", title: "COUNTER SIDE", ko: "카운터사이드",
-    genre: "어반 판타지 RPG", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
-    orient: "landscape", hue: [226, 252], cover: "", icon: "images/counterside/icon.jpg",
-    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
-    screens: []
+    genre: "어반 판타지 RPG", year: "2020 – 2022", role: "UI/UX · 리소스 · 배너", tools: "",
+    orient: "landscape", hue: [226, 252], cover: "images/counterside/ev-04.jpg", icon: "images/counterside/icon.jpg",
+    summary: "국내와 글로벌에서 동시에 서비스된 카운터사이드의 라이브 운영 UI를 맡았습니다. 신규 사원 출시와 기념일 이벤트, 시즌 업데이트 일정에 맞춰 채용·출근체크 배너를 꾸준히 제작했고, 스킬 아이콘과 유저 프레임, 이벤트 재화와 패키지 상품 같은 리소스를 게임의 어두운 어반 판타지 톤에 맞춰 일관되게 쌓아 올렸습니다. 전황 일람과 타임어택 같은 신규 콘텐츠에서는 화면 흐름 설계부터 최종 UI까지 함께했습니다.",
+    screens: [],
+    dir: "images/counterside/",
+    sections: [
+      { title: "UI/UX", groups: [
+        { title: "전황 일람", note: "추가 지원(버프)과 고강도 계획(디버프) 중 하나를 골라 점수 보정을 정하는 보스전 설정 화면", cols: 2, lead: true, ratio: "16 / 9", items: [
+          { f: "ui-01", name: "초기 화면" },
+          { f: "ui-02", name: "추가 지원 선택" },
+          { f: "ui-03", name: "고강도 계획 선택" }
+        ] },
+        { title: "타임어택", note: "클래스별 최단 클리어 기록을 겨루는 콘텐츠", cols: 2, lead: true, ratio: "16 / 9", items: [
+          { f: "ui-05", name: "클래스별 스테이지" },
+          { f: "ui-04", name: "작전 메뉴 썸네일" },
+          { f: "ui-06", name: "리더보드 팝업" }
+        ] }
+      ] },
+      { title: "리소스", groups: [
+        { title: "아이콘 · 프레임 · 상품", cols: 2, lead: true, ratio: "3 / 2", items: [
+          { f: "res-01", name: "유저 프레임" },
+          { f: "res-02", name: "스킬 아이콘 1" },
+          { f: "res-03", name: "스킬 아이콘 2" },
+          { f: "res-04", name: "패키지 상품" },
+          { f: "res-05", name: "이벤트 재화" },
+          { f: "res-06", name: "계약 미션 배너" },
+          { f: "res-07", name: "이벤트 미션 배너" }
+        ] }
+      ] },
+      { title: "배너", groups: [
+        { title: "기념 이벤트 채용", note: "200일부터 2주년까지, 기념일마다 진행한 이벤트 채용 화면", cols: 2, ratio: "16 / 9", items: [
+          { f: "ev-01", name: "200일 기념" },
+          { f: "ev-02", name: "500일 기념" },
+          { f: "ev-03", name: "1.5주년" },
+          { f: "ev-04", name: "2주년" }
+        ] },
+        { title: "사원 채용", note: "신규 SSR 사원 출시마다 제작한 채용 배너", cols: 3, ratio: "16 / 9", items: [
+          { f: "rc-01", name: "갬블러" },
+          { f: "rc-02", name: "구원기사단 · 루크레시아" },
+          { f: "rc-03", name: "구원기사단 · 클라레스" },
+          { f: "rc-04", name: "그로니아 보안국 · 크리스" },
+          { f: "rc-05", name: "기적심의회 · 비블리데 루체" },
+          { f: "rc-06", name: "나이엘" },
+          { f: "rc-07", name: "델타 세븐 · 제이나 크로펠" },
+          { f: "rc-08", name: "라라예거" },
+          { f: "rc-09", name: "마리아 안토노프" },
+          { f: "rc-10", name: "민병대 · 최지훈" },
+          { f: "rc-11", name: "북방 합의체 · 골리앗" },
+          { f: "rc-12", name: "북방 합의체 · 그렌델" },
+          { f: "rc-13", name: "사흉신 · 루루 나이트메어" },
+          { f: "rc-14", name: "스케빈져 · 기계수집가" },
+          { f: "rc-15", name: "알트 소대 · 샤오린" },
+          { f: "rc-16", name: "엘리시움 필하모닉 · 셰나" },
+          { f: "rc-17", name: "오즈 · 도로시" },
+          { f: "rc-18", name: "왕립 국경 수비대 · 엘라" },
+          { f: "rc-19", name: "제프티바이오테크 · 루시드" },
+          { f: "rc-20", name: "조디악 나이츠 · 에스테로사 드 슈발리에" },
+          { f: "rc-21", name: "침식체 · 모르스" },
+          { f: "rc-22", name: "침식체 · 스피라" },
+          { f: "rc-23", name: "퓨처 앳 워 · 야누스" }
+        ] },
+        { title: "출근 체크", note: "시즌 이벤트와 업데이트에 맞춘 출석 보상 배너", cols: 4, ratio: "1400 / 694", items: [
+          { f: "ck-01", name: "2020 할로윈" },
+          { f: "ck-02", name: "2021 따뜻한 산장 연회" },
+          { f: "ck-03", name: "근로자의 날" },
+          { f: "ck-04", name: "어린이의 마음" },
+          { f: "ck-05", name: "여우가면의 특별 선물" },
+          { f: "ck-06", name: "장비 강화 시즌" },
+          { f: "ck-07", name: "7티어 기념 특별 보급" },
+          { f: "ck-08", name: "재무장 기념 특별 보급" }
+        ] }
+      ] }
+    ]
   },
   {
     id: "sonyeo-chongsa", title: "소녀총사 키우기", ko: "",
@@ -357,6 +482,49 @@ function renderIndex() {
             </a>`).join("")}
         </div>
       </section>`).join("")}`;
+  if (matchMedia("(hover: hover)").matches) {
+    app.querySelectorAll(".app").forEach(a => {
+      const p = byId(a.getAttribute("href").slice(1));
+      a.addEventListener("mouseenter", () => showPreview(p, a));
+      a.addEventListener("focus", () => showPreview(p, a));
+      a.addEventListener("mouseleave", hidePreview);
+      a.addEventListener("blur", hidePreview);
+    });
+  }
+}
+
+// Preview: cover + the first piece of each work section
+const pv = document.createElement("div");
+pv.className = "pv";
+pv.setAttribute("aria-hidden", "true");
+document.body.append(pv);
+let pvTimer;
+
+function showPreview(p, anchor) {
+  clearTimeout(pvTimer);
+  pvTimer = setTimeout(() => {
+    const co = companyOf(p);
+    const picks = (p.sections || []).map(s => s.groups[0].items[0]).slice(0, 3);
+    pv.innerHTML = (p.cover
+      ? `<div class="pv-cover"><img src="${esc(p.cover)}" alt=""></div>`
+      : `<div class="pv-empty">${icon(p)}<span>상세 화면 준비 중</span></div>`) +
+      (picks.length ? `<div class="pv-thumbs">${picks.map(it => `<div><img src="${esc(p.dir + it.f + "-t.jpg")}" alt=""></div>`).join("")}</div>` : "") +
+      `<div class="pv-meta"><b>${esc(p.title)}</b><span>${esc(p.genre)}${co ? ` · ${esc(co.name)}` : ""}</span>${p.role && !/입력/.test(p.role) ? `<span>${esc(p.role)}</span>` : ""}</div>`;
+    const r = anchor.querySelector(".icon").getBoundingClientRect();
+    const w = pv.offsetWidth, h = pv.offsetHeight, gap = 16;
+    let x = r.right + gap;
+    if (x + w > innerWidth - 16) x = r.left - gap - w;
+    x = Math.max(16, x);
+    const y = Math.min(Math.max(16, r.top + r.height / 2 - h / 2), innerHeight - h - 16);
+    pv.style.left = x + "px";
+    pv.style.top = y + "px";
+    pv.classList.add("on");
+  }, 120);
+}
+
+function hidePreview() {
+  clearTimeout(pvTimer);
+  pv.classList.remove("on");
 }
 
 function renderDetail(p) {
@@ -377,15 +545,68 @@ function renderDetail(p) {
     </section>
     ${shot(p, { kind: "title", name: "타이틀" }, { orient: "landscape", src: p.cover, crop: true })}
     <dl class="meta">
-      <div><dt>Genre</dt><dd>${esc(p.genre)}</dd></div>
-      <div><dt>Role</dt><dd>${esc(p.role)}</dd></div>
-      <div><dt>Year</dt><dd>${esc(p.year)}</dd></div>
-      <div><dt>Tools</dt><dd>${esc(p.tools)}</dd></div>
+      ${[["Genre", p.genre], ["Role", p.role], ["Year", p.year], ["Tools", p.tools]].filter(([, v]) => v)
+        .map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("")}
     </dl>
     <section class="overview">
       <h3>Overview</h3>
       <p>${esc(p.summary)}</p>
     </section>
+    ${p.sections ? renderSections(p) : renderScreens(p)}
+    <nav class="pager">
+      <a href="#${prev.id}"><small>이전 프로젝트</small><b>${esc(prev.title)}</b></a>
+      <a href="#${next.id}"><small>다음 프로젝트</small><b>${esc(next.title)}</b></a>
+    </nav>`;
+  app.querySelectorAll(".tile button").forEach(b => b.addEventListener("click", () => openLightbox(+b.dataset.i)));
+  app.querySelectorAll("figure:not(.tile)").forEach(f => {
+    f.querySelector(".shot").addEventListener("click", () => {
+      const s = p.screens[+f.dataset.n];
+      lbItems = [];
+      lb.innerHTML = `<div>${shot(p, s, { src: s.src })}<div class="cap">${esc(s.name)}</div></div>`;
+      lb.hidden = false;
+    });
+  });
+}
+
+// Grouped work sections; fills lbItems in display order for the lightbox
+function renderSections(p) {
+  lbItems = [];
+  return p.sections.map(sec => {
+    const count = sec.groups.reduce((n, g) => n + g.items.length, 0);
+    return `<section class="sec">
+      <div class="sec-head"><h2>${esc(sec.title)}</h2><span>${count}</span></div>
+      ${sec.groups.map(g => `
+        <div class="grp">
+          <div class="grp-head"><h3>${esc(g.title)}</h3>${g.note ? `<p>${esc(g.note)}</p>` : ""}</div>
+          <div class="tiles${g.lead ? " lead" : ""}" data-cols="${g.cols}" style="--cols:${g.cols}">
+            ${g.items.map((it, k) => {
+              const i = lbItems.push({ src: p.dir + it.f + ".jpg", name: it.name, group: g.title }) - 1;
+              const src = p.dir + it.f + (g.lead && k === 0 ? ".jpg" : "-t.jpg");
+              return `<figure class="tile">
+                <button type="button" data-i="${i}" aria-label="${esc(it.name)} 크게 보기"><img src="${src}" alt="${esc(g.title + " " + it.name)}" loading="lazy" style="aspect-ratio:${g.ratio}"></button>
+                <figcaption>${esc(it.name)}</figcaption>
+              </figure>`;
+            }).join("")}
+          </div>
+        </div>`).join("")}
+    </section>`;
+  }).join("");
+}
+
+let lbItems = [], lbIndex = 0;
+function openLightbox(i) {
+  lbIndex = (i + lbItems.length) % lbItems.length;
+  const it = lbItems[lbIndex];
+  lb.innerHTML = `
+    <button type="button" class="lb-nav lb-prev" aria-label="이전 이미지">‹</button>
+    <figure class="lb-fig"><img src="${esc(it.src)}" alt="${esc(it.group + " " + it.name)}">
+      <figcaption>${esc(it.group)} · ${esc(it.name)}<span>${lbIndex + 1} / ${lbItems.length}</span></figcaption></figure>
+    <button type="button" class="lb-nav lb-next" aria-label="다음 이미지">›</button>`;
+  lb.hidden = false;
+}
+
+function renderScreens(p) {
+  return `
     <div class="gallery-head"><span>Screens</span><span>${p.screens.length}</span></div>
     ${p.screens.length ? "" : `<p class="empty">화면 이미지를 준비하고 있습니다.</p>`}
     <section class="gallery">
@@ -394,30 +615,29 @@ function renderDetail(p) {
           ${shot(p, s, { src: s.src })}
           <figcaption><b>${esc(s.name)}</b>${s.note ? `<span>${esc(s.note)}</span>` : ""}</figcaption>
         </figure>`).join("")}
-    </section>
-    <nav class="pager">
-      <a href="#${prev.id}"><small>이전 프로젝트</small><b>${esc(prev.title)}</b></a>
-      <a href="#${next.id}"><small>다음 프로젝트</small><b>${esc(next.title)}</b></a>
-    </nav>`;
-  app.querySelectorAll("figure").forEach(f => {
-    f.querySelector(".shot").addEventListener("click", () => {
-      const s = p.screens[+f.dataset.n];
-      lb.innerHTML = `<div>${shot(p, s, { src: s.src })}<div class="cap">${esc(s.name)}</div></div>`;
-      lb.hidden = false;
-    });
-  });
+    </section>`;
 }
 
 function route() {
   const id = location.hash.slice(1);
   const p = projects.find(x => x.id === id);
   lb.hidden = true;
+  hidePreview();
   p ? renderDetail(p) : renderIndex();
   window.scrollTo(0, 0);
 }
 
-lb.addEventListener("click", () => { lb.hidden = true; });
-document.addEventListener("keydown", e => { if (e.key === "Escape") lb.hidden = true; });
+lb.addEventListener("click", e => {
+  const nav = e.target.closest(".lb-nav");
+  if (nav) openLightbox(lbIndex + (nav.classList.contains("lb-next") ? 1 : -1));
+  else if (!e.target.closest(".lb-fig img")) lb.hidden = true;
+});
+document.addEventListener("keydown", e => {
+  if (lb.hidden) return;
+  if (e.key === "Escape") lb.hidden = true;
+  else if (lbItems.length && e.key === "ArrowRight") openLightbox(lbIndex + 1);
+  else if (lbItems.length && e.key === "ArrowLeft") openLightbox(lbIndex - 1);
+});
 window.addEventListener("hashchange", route);
 route();
 </script>
