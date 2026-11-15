@@ -121,6 +121,8 @@ a { color: inherit; }
 .pv-meta { display: grid; gap: 2px; padding: 4px 2px 2px; }
 .pv-meta b { font-family: var(--font-display); font-size: 15px; }
 .pv-meta span { font-size: 12px; color: var(--muted); }
+.pv-strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; padding: 10px; border-radius: 6px; }
+.pv-strip img { aspect-ratio: 1080 / 2400; border-radius: 4px; }
 .pv-empty { display: grid; place-items: center; aspect-ratio: 16 / 9; border-radius: 6px; background: var(--bg); color: var(--muted); font-size: 13px; }
 .pv-empty .icon { width: 72px; box-shadow: none; }
 @media (hover: none) { .pv { display: none; } }
@@ -212,6 +214,12 @@ a { color: inherit; }
 .tiles.lead > .tile:first-child figcaption { font-size: 14px; }
 @media (max-width: 720px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; } }
 @media (max-width: 480px) { .tiles[data-cols="2"] { grid-template-columns: 1fr; } }
+@media (max-width: 720px) { .tiles[data-cols="5"] { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* Hero strip of phone screens for portrait games */
+.strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(8px, 1.6vw, 20px); padding: clamp(16px, 3.2vw, 44px); border-radius: 6px; }
+.strip img { display: block; width: 100%; aspect-ratio: 1080 / 2400; object-fit: cover; border-radius: clamp(6px, 1vw, 12px); box-shadow: 0 16px 32px -14px rgba(0,0,0,.6); }
+@media (max-width: 640px) { .strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } .strip img:nth-child(n+4) { display: none; } }
 @media (prefers-reduced-motion: reduce) { .tile img { transition: none; } }
 
 .lb-fig { margin: 0; display: grid; gap: 12px; justify-items: center; cursor: default; }
@@ -279,7 +287,7 @@ const projects = [
     id: "counter-side", title: "COUNTER SIDE", ko: "카운터사이드",
     genre: "어반 판타지 RPG", year: "2020 – 2022", role: "UI/UX · 리소스 · 배너", tools: "",
     orient: "landscape", hue: [226, 252], cover: "images/counterside/ev-04.jpg", icon: "images/counterside/icon.jpg",
-    summary: "국내와 글로벌에서 동시에 서비스된 카운터사이드의 라이브 운영 UI를 맡았습니다. 신규 사원 출시와 기념일 이벤트, 시즌 업데이트 일정에 맞춰 채용·출근체크 배너를 꾸준히 제작했고, 스킬 아이콘과 유저 프레임, 이벤트 재화와 패키지 상품 같은 리소스를 게임의 어두운 어반 판타지 톤에 맞춰 일관되게 쌓아 올렸습니다. 전황 일람과 타임어택 같은 신규 콘텐츠에서는 화면 흐름 설계부터 최종 UI까지 함께했습니다.",
+    summary: "글로벌 라이브서비스 / 배너 / 아이콘 리소스 위주 작업",
     screens: [],
     dir: "images/counterside/",
     sections: [
@@ -353,24 +361,102 @@ const projects = [
   },
   {
     id: "sonyeo-chongsa", title: "소녀총사 키우기", ko: "",
-    genre: "방치형 RPG", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    genre: "방치형 RPG", year: "", role: "UI/UX 전체 · 광고 배너 · 스토어 배너", tools: "",
     orient: "portrait", hue: [22, 40], cover: "", icon: "images/sonyeo-chongsa/icon.jpg",
-    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
-    screens: []
+    summary: "UI / UX 전체 / 광고배너 / 스토어배너",
+    screens: [],
+    dir: "images/sonyeo-chongsa/",
+    strip: ["a1", "a4", "b2", "b5", "b9"],
+    sections: [
+      { title: "UI / UX", groups: [
+        { title: "메인 · 성장", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "a1", name: "메인 · 스탯 강화" }, { f: "a2", name: "보스 등장" }, { f: "a3", name: "보스 전투" },
+          { f: "a9", name: "유물" }, { f: "b1", name: "특성" }
+        ] },
+        { title: "정보 · 팝업", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "a4", name: "유저 정보" }, { f: "a5", name: "랭킹" }, { f: "a6", name: "코스튬" },
+          { f: "a7", name: "퀘스트" }, { f: "a8", name: "자동 보상" }
+        ] },
+        { title: "장비 · 펫", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "b2", name: "장비" }, { f: "b3", name: "장신구" }, { f: "b4", name: "펫" }
+        ] },
+        { title: "던전", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "b5", name: "던전 목록" }, { f: "b6", name: "던전 스테이지" }
+        ] },
+        { title: "소환 · 상점", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "b7", name: "장비 소환" }, { f: "b8", name: "유물 소환" }, { f: "b9", name: "패키지" },
+          { f: "c1", name: "재화 상점" }, { f: "c2", name: "마일리지 상점" }
+        ] }
+      ] }
+    ]
   },
   {
     id: "eternal-heroes", title: "이터널 히어로즈", ko: "",
-    genre: "방치형 RPG", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
-    orient: "landscape", hue: [42, 268], cover: "", icon: "images/eternal-heroes/icon.jpg",
-    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
-    screens: []
+    genre: "방치형 RPG", year: "", role: "UI/UX 전체 · 광고 배너 · 스토어 배너", tools: "",
+    orient: "portrait", hue: [42, 268], cover: "", icon: "images/eternal-heroes/icon.jpg",
+    summary: "UI / UX 전체 / 광고배너 / 스토어배너",
+    screens: [],
+    dir: "images/eternal-heroes/",
+    strip: ["a1", "a3", "c1", "e5", "f3"],
+    sections: [
+      { title: "UI / UX", groups: [
+        { title: "타이틀 · 로딩", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "a1", name: "타이틀" }, { f: "a2", name: "로딩" }, { f: "b1", name: "절전 모드" }, { f: "b2", name: "절전 모드 해제" }
+        ] },
+        { title: "메인 · 팝업", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "a3", name: "메인 전투" }, { f: "a4", name: "유저 정보" }, { f: "a5", name: "초상화 변경" },
+          { f: "a6", name: "닉네임 변경" }, { f: "a7", name: "광고 버프" }, { f: "a8", name: "재화 정보" },
+          { f: "a9", name: "설정" }, { f: "b3", name: "우편함" }, { f: "b4", name: "퀘스트" },
+          { f: "b5", name: "랭킹" }, { f: "b6", name: "자동 보상" }, { f: "b7", name: "빠른 전투" }
+        ] },
+        { title: "영웅", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "b8", name: "영웅 목록" }, { f: "b9", name: "영웅 관리" }, { f: "c1", name: "영웅 상세" },
+          { f: "c2", name: "장착 장비" }, { f: "c3", name: "장비 교체" }, { f: "c4", name: "스킬 정보" },
+          { f: "c5", name: "영웅 초기화" }, { f: "c6", name: "상세 스탯" }, { f: "c7", name: "배치 · 시너지" },
+          { f: "c8", name: "배치 편성" }, { f: "c9", name: "도감" }, { f: "d1", name: "속성 도감" }, { f: "d2", name: "도감 보상" }
+        ] },
+        { title: "장비", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "d3", name: "장비 목록" }, { f: "d4", name: "장비 강화" }, { f: "d5", name: "조합" },
+          { f: "d6", name: "조합 재료 선택" }, { f: "d7", name: "조합 준비" }, { f: "d8", name: "조합 결과" }, { f: "d9", name: "일괄 관리" }
+        ] },
+        { title: "모험 · 던전", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "e1", name: "모험" }, { f: "e2", name: "강화석 던전" }, { f: "e3", name: "던전 편성" }, { f: "e4", name: "경험의 정수 던전" }
+        ] },
+        { title: "소환 · 상점", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "e5", name: "영웅 소환" }, { f: "e6", name: "소환 확률" }, { f: "e7", name: "소환 레벨 보상" },
+          { f: "e8", name: "장비 소환" }, { f: "e9", name: "패키지" }, { f: "f1", name: "재화 상점" },
+          { f: "f2", name: "무료 상점" }, { f: "f3", name: "7일 이벤트" }
+        ] }
+      ] }
+    ]
   },
   {
     id: "dragon-slayer", title: "드래곤 슬레이어 키우기", ko: "",
-    genre: "방치형 RPG", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    genre: "방치형 RPG", year: "", role: "UI/UX 전체 · 광고 배너 · 스토어 배너", tools: "",
     orient: "portrait", hue: [214, 196], cover: "", icon: "images/dragon-slayer/icon.jpg",
-    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
-    screens: []
+    summary: "UI / UX 전체 / 광고배너 / 스토어배너",
+    screens: [],
+    dir: "images/dragon-slayer/",
+    strip: ["a1", "a4", "b7", "c1", "c3"],
+    sections: [
+      { title: "UI / UX", groups: [
+        { title: "타이틀 · 메인", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "a1", name: "타이틀" }, { f: "a2", name: "로딩" }, { f: "a3", name: "오프라인 보상" }, { f: "a4", name: "메인 · 스탯 강화" }
+        ] },
+        { title: "설정 · 팝업", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "a5", name: "설정" }, { f: "a6", name: "출석 보상" }, { f: "a7", name: "언어 변경" },
+          { f: "a8", name: "닉네임 변경" }, { f: "a9", name: "랭킹" }, { f: "b1", name: "유저 정보" },
+          { f: "b2", name: "우편함" }, { f: "b3", name: "퀘스트" }, { f: "b4", name: "칭호" },
+          { f: "b5", name: "칭호 상세" }, { f: "b6", name: "룰렛" }
+        ] },
+        { title: "장비 · 코스튬", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "b7", name: "장비" }, { f: "b8", name: "코스튬 · 머리" }, { f: "b9", name: "코스튬 · 탈것" }
+        ] },
+        { title: "스킬 · 모험 · 소환", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "c1", name: "스킬" }, { f: "c2", name: "정령" }, { f: "c3", name: "모험 지도" }, { f: "c4", name: "소환" }
+        ] }
+      ] }
+    ]
   },
   {
     id: "gotcha", title: "갓쳐", ko: "",
@@ -456,6 +542,8 @@ function shot(p, s, { orient = s.orient || p.orient, src, crop } = {}) {
     <span class="label">${esc(s.name)}</span></div></div>`;
 }
 
+const stripBg = p => `background: linear-gradient(140deg, hsl(${p.hue[0]} 40% 16%), hsl(${p.hue[1]} 45% 32%));`;
+
 function icon(p) {
   if (p.icon) return `<div class="icon"><img src="${esc(p.icon)}" alt="${esc(p.title)} 앱 아이콘"></div>`;
   const [h1, h2] = p.hue;
@@ -504,8 +592,10 @@ function showPreview(p, anchor) {
   clearTimeout(pvTimer);
   pvTimer = setTimeout(() => {
     const co = companyOf(p);
-    const picks = (p.sections || []).map(s => s.groups[0].items[0]).slice(0, 3);
-    pv.innerHTML = (p.cover
+    const picks = p.strip ? [] : (p.sections || []).map(s => s.groups[0].items[0]).slice(0, 3);
+    pv.innerHTML = (p.strip
+      ? `<div class="pv-strip" style="${stripBg(p)}">${p.strip.map(f => `<img src="${esc(p.dir + f + "-t.jpg")}" alt="">`).join("")}</div>`
+      : p.cover
       ? `<div class="pv-cover"><img src="${esc(p.cover)}" alt=""></div>`
       : `<div class="pv-empty">${icon(p)}<span>상세 화면 준비 중</span></div>`) +
       (picks.length ? `<div class="pv-thumbs">${picks.map(it => `<div><img src="${esc(p.dir + it.f + "-t.jpg")}" alt=""></div>`).join("")}</div>` : "") +
@@ -543,7 +633,9 @@ function renderDetail(p) {
         ${sub ? `<span class="ko">${esc(sub)}</span>` : ""}
       </div>
     </section>
-    ${shot(p, { kind: "title", name: "타이틀" }, { orient: "landscape", src: p.cover, crop: true })}
+    ${p.strip
+      ? `<div class="strip" style="${stripBg(p)}">${p.strip.map(f => `<img src="${esc(p.dir + f + "-t.jpg")}" alt="${esc(p.title)} 화면">`).join("")}</div>`
+      : shot(p, { kind: "title", name: "타이틀" }, { orient: "landscape", src: p.cover, crop: true })}
     <dl class="meta">
       ${[["Genre", p.genre], ["Role", p.role], ["Year", p.year], ["Tools", p.tools]].filter(([, v]) => v)
         .map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("")}
