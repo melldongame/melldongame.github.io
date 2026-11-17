@@ -216,6 +216,35 @@ a { color: inherit; }
 @media (max-width: 480px) { .tiles[data-cols="2"] { grid-template-columns: 1fr; } }
 @media (max-width: 720px) { .tiles[data-cols="5"] { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
+/* Spine animation cards */
+.spines { display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 20px 16px; }
+.spine { margin: 0; display: grid; gap: 10px; min-width: 0; }
+.spine-stage {
+  position: relative; aspect-ratio: 1 / 1; border-radius: 8px; overflow: hidden;
+  background: linear-gradient(180deg, var(--surface) 55%, var(--bg)); border: 1px solid var(--line);
+}
+.spine-stage::after { content: ""; position: absolute; left: 26%; right: 26%; bottom: 8%; height: 5%; border-radius: 50%; background: rgba(0,0,0,.14); filter: blur(5px); }
+/* The whole animation always fits inside the stage, resting on the floor */
+.spine-stage img { position: absolute; z-index: 1; inset: 8% 6% 9%; width: 88%; height: 83%; object-fit: contain; object-position: center bottom; }
+.spine figcaption { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.spine figcaption b { font-size: 14px; font-weight: 600; }
+.chips { display: flex; gap: 4px; }
+.chip {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; padding: 3px 9px; border-radius: 99px;
+  border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer;
+}
+.chip:hover { color: var(--fg); border-color: var(--muted); }
+.chip[aria-pressed="true"] { background: var(--fg); border-color: var(--fg); color: var(--bg); }
+.chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chip-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--muted); }
+/* UI effect clips: dark screen, whole clip visible, click to enlarge */
+.spines.fx .spine-stage { aspect-ratio: 3 / 4; background: #1B1E1C; border-color: #1B1E1C; }
+.spines.fx .spine-stage::after { display: none; }
+.spines.fx .spine-stage img { inset: 4%; width: 92%; height: 92%; object-position: center; }
+button.spine-stage { display: block; width: 100%; padding: 0; cursor: zoom-in; }
+button.spine-stage:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 720px) { .spines { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; } }
+
 /* Hero strip of phone screens for portrait games */
 .strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(8px, 1.6vw, 20px); padding: clamp(16px, 3.2vw, 44px); border-radius: 6px; }
 .strip img { display: block; width: 100%; aspect-ratio: 1080 / 2400; object-fit: cover; border-radius: clamp(6px, 1vw, 12px); box-shadow: 0 16px 32px -14px rgba(0,0,0,.6); }
@@ -460,38 +489,253 @@ const projects = [
   },
   {
     id: "gotcha", title: "갓쳐", ko: "",
-    genre: "방치형 타워 디펜스", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
-    orient: "landscape", hue: [222, 200], cover: "", icon: "images/gotcha/icon.jpg",
-    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
-    screens: []
+    genre: "방치형 타워 디펜스", year: "", role: "초기 UI/UX · 광고 · 스토어 배너", tools: "",
+    orient: "portrait", hue: [222, 200], cover: "", icon: "images/gotcha/icon.jpg",
+    summary: "초기 UI / UX / 광고 / 스토어배너",
+    screens: [],
+    dir: "images/gotcha/",
+    strip: ["s1", "s3", "s10", "s8", "s9"],
+    sections: [
+      { title: "UI / UX", groups: [
+        { title: "타이틀 · 메인", cols: 5, ratio: "1080 / 2340", items: [
+          { f: "s1", name: "타이틀" }, { f: "s3", name: "메인 · 성장" }, { f: "s7", name: "절전 모드" }
+        ] },
+        { title: "팝업", cols: 5, ratio: "1080 / 2340", items: [
+          { f: "s4", name: "유저 정보" }, { f: "s5", name: "퀘스트" }, { f: "s2", name: "출석 체크" }, { f: "s6", name: "설정" }
+        ] },
+        { title: "영웅", cols: 5, ratio: "1080 / 2340", items: [
+          { f: "s10", name: "특성" }, { f: "s11", name: "스킬" }, { f: "s12", name: "코스튬" }
+        ] },
+        { title: "이벤트 콘텐츠", cols: 5, ratio: "1080 / 2340", items: [
+          { f: "s8", name: "데스웜의 분노" }, { f: "s9", name: "희귀 몬스터 발견" }
+        ] }
+      ] }
+    ]
   },
   {
     id: "cat-fortress", title: "고양이 요새", ko: "",
-    genre: "방치형 디펜스", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    genre: "방치형 디펜스", year: "", role: "UI/UX · UI 연출 · 캐릭터 스파인 · 광고 · 스토어 배너", tools: "",
     orient: "portrait", hue: [12, 36], cover: "", icon: "images/cat-fortress/icon.jpg",
-    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
-    screens: []
+    summary: "UI / UX / UI 연출 / 캐릭터 스파인 / 광고 , 스토어배너",
+    screens: [],
+    dir: "images/cat-fortress/",
+    strip: ["a3", "a4", "c2", "d2", "e1"],
+    sections: [
+      { title: "캐릭터 스파인", groups: [
+        { title: "영웅", kind: "spine", cols: 4, items: [
+          { name: "버서커", anims: [["IDLE", "spine/cha-015-idle.gif"], ["ATK", "spine/cha-015-atk.gif"]] },
+          { name: "메카", anims: [["IDLE", "spine/cha-017-idle.gif"], ["ATK", "spine/cha-017-atk.gif"]] },
+          { name: "기타리스트", anims: [["IDLE", "spine/cha-020-idle.gif"], ["ATK", "spine/cha-020-atk.gif"]] },
+          { name: "메카 캐논", anims: [["IDLE", "spine/cha-025-idle.gif"], ["ATK", "spine/cha-025-atk.gif"]] },
+          { name: "스페이스 마린", anims: [["IDLE", "spine/cha-027-idle.gif"], ["ATK", "spine/cha-027-atk.gif"]] },
+          { name: "파라오 미라", anims: [["MOVE", "spine/cha-028-move.gif"], ["ATK", "spine/cha-028-atk.gif"]] },
+          { name: "수리검", anims: [["IDLE", "spine/cha-029-idle.gif"], ["ATK", "spine/cha-029-atk.gif"]] }
+        ] }
+      ] },
+      { title: "몬스터 스파인", groups: [
+        { title: "보스", kind: "spine", cols: 5, items: [
+          { name: "까마귀 보스", anims: [["MOVE", "spine/crow_boss_move.gif"], ["ATK", "spine/crow_boss_atk.gif"]] },
+          { name: "비둘기 보스", anims: [["MOVE", "spine/pigeon_boss_move.gif"], ["ATK", "spine/pigeon_boss_atk.gif"]] },
+          { name: "황금 고블린", anims: [["MOVE", "spine/gold_golden_goblin_boss_move.gif"], ["ATK", "spine/gold_golden_goblin_boss_atk.gif"]] },
+          { name: "털실 뭉치", anims: [["MOVE", "spine/legacy_yarn_boss_move.gif"], ["ATK", "spine/legacy_yarn_boss_atk.gif"]] },
+          { name: "샌드백", anims: [["MOVE", "spine/exp_punchingbag_boss_move.gif"], ["ATK", "spine/exp_punchingbag_boss_atk.gif"]] }
+        ] },
+        { title: "일반 몬스터", kind: "spine", cols: 4, items: [
+          { name: "박쥐", anims: [["MOVE", "spine/bat_move.gif"], ["ATK", "spine/bat_atk.gif"]] },
+          { name: "까마귀", anims: [["MOVE", "spine/crow_move.gif"], ["ATK", "spine/crow_atk.gif"]] },
+          { name: "비둘기", anims: [["MOVE", "spine/pigeon_move.gif"], ["ATK", "spine/pigeon_atk.gif"]] },
+          { name: "고블린", anims: [["MOVE", "spine/goblin_move.gif"], ["ATK", "spine/goblin_atk.gif"]] },
+          { name: "사이버 쥐", anims: [["MOVE", "spine/rat_cyber_move.gif"], ["ATK", "spine/rat_cyber_atk.gif"]] },
+          { name: "좀비 쥐", anims: [["MOVE", "spine/rat_zombie_move.gif"], ["ATK", "spine/rat_zombie_atk.gif"]] },
+          { name: "늑대인간", anims: [["MOVE", "spine/wolf_lycan_move.gif"], ["ATK", "spine/wolf_lycan_atk.gif"]] },
+          { name: "나무", anims: [["MOVE", "spine/tree_move.gif"]] }
+        ] }
+      ] },
+      { title: "UI / UX", groups: [
+        { title: "타이틀 · 로그인", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "a1", name: "계정 연결" }, { f: "a2", name: "업데이트 알림" }, { f: "a3", name: "타이틀" }
+        ] },
+        { title: "메인 · 성장", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "a4", name: "메인 전투" }, { f: "c1", name: "성장" }, { f: "c3", name: "편성" }
+        ] },
+        { title: "팝업", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "a6", name: "계정 정보" }, { f: "a7", name: "버프" }, { f: "a8", name: "버프 도움말" },
+          { f: "b1", name: "퀘스트" }, { f: "b2", name: "출석부" }, { f: "b3", name: "랭킹" },
+          { f: "b4", name: "랭킹 구간" }, { f: "b6", name: "절전 모드" }, { f: "b7", name: "옵션" },
+          { f: "b8", name: "계정 연동" }, { f: "b9", name: "알림 팝업" }
+        ] },
+        { title: "영웅 · 도감", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "c2", name: "영웅 관리" }, { f: "e2", name: "도감" }, { f: "e3", name: "도감 목록" },
+          { f: "e4", name: "도감 상세" }, { f: "e5", name: "도감 상세 2" }, { f: "e6", name: "보유 효과" }
+        ] },
+        { title: "유물 · 던전", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "c4", name: "유물 소환" }, { f: "c5", name: "유물 소환 보상" }, { f: "c6", name: "던전" },
+          { f: "c7", name: "골드 던전" }, { f: "c8", name: "보관함" }, { f: "c9", name: "아이템 사용" }
+        ] },
+        { title: "소환 · 상점", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "d1", name: "확률 업 소환" }, { f: "d2", name: "영웅 소환" }, { f: "d3", name: "소환 확률" },
+          { f: "d5", name: "장비 소환" }, { f: "d6", name: "패키지" }, { f: "d7", name: "일일 · 주간 상점" }, { f: "d8", name: "재화 상점" }
+        ] }
+      ] },
+      { title: "UI 연출", groups: [
+        { title: "전투 · 소환 연출", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "a5", name: "보스 등장" }, { f: "a9", name: "스킬 연출" }, { f: "d9", name: "스킬 연출 2" },
+          { f: "b5", name: "패배" }, { f: "d4", name: "소환 연출" }, { f: "e1", name: "전설 영웅 획득 찬스" }
+        ] }
+      ] },
+      { title: "광고 · 스토어 배너", groups: [
+        { title: "광고 배너", cols: 5, ratio: "1 / 1", items: [
+          { f: "ad-01", name: "배너 1" }, { f: "ad-02", name: "배너 2" }, { f: "ad-03", name: "배너 3" },
+          { f: "ad-04", name: "배너 4" }, { f: "ad-05", name: "배너 5" }, { f: "ad-06", name: "배너 6" },
+          { f: "ad-07", name: "배너 7" }, { f: "ad-08", name: "배너 8" }, { f: "ad-09", name: "배너 9" }, { f: "ad-10", name: "배너 10" }
+        ] }
+      ] }
+    ]
   },
   {
     id: "surprise-defense", title: "깜짝 디펜스", ko: "",
-    genre: "전략 타워 디펜스", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    genre: "전략 타워 디펜스", year: "", role: "UI/UX · UI 연출 · 캐릭터 스파인 · 광고 · 스토어 배너", tools: "",
     orient: "portrait", hue: [196, 150], cover: "", icon: "images/surprise-defense/icon.jpg",
-    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
-    screens: []
+    summary: "UI / UX / UI 연출 / 캐릭터 스파인 / 광고 , 스토어배너",
+    screens: [],
+    dir: "images/surprise-defense/",
+    strip: ["a1", "a3", "b3", "d3", "e1"],
+    sections: [
+      { title: "캐릭터 스파인", groups: [
+        { title: "영웅", kind: "spine", cols: 4, items: [
+          { name: "새싹 망치", anims: [["ATK", "spine/cha_001_atk.gif"]] },
+          { name: "해골", anims: [["ATK", "spine/cha_004_atk.gif"]] },
+          { name: "사냥꾼", anims: [["ATK", "spine/cha_013_atk.gif"]] },
+          { name: "로봇", anims: [["IDLE", "spine/cha_016_idle.gif"]] },
+          { name: "궁수", anims: [["ATK", "spine/cha_019_atk.gif"]] },
+          { name: "바바리안", anims: [["ATK", "spine/cha_020_atk.gif"]] },
+          { name: "새총", anims: [["ATK", "spine/cha_021_atk.gif"]] },
+          { name: "늑대", anims: [["IDLE", "spine/cha_024_idle.gif"]] },
+          { name: "눈사람", anims: [["IDLE", "spine/cha_028_idle.gif"]] },
+          { name: "큰부리새", anims: [["IDLE", "spine/cha_031_idle.gif"]] },
+          { name: "닌자", anims: [["IDLE", "spine/cha_032_idle.gif"]] }
+        ] }
+      ] },
+      { title: "몬스터 스파인", groups: [
+        { title: "보스", kind: "spine", cols: 4, items: [
+          { name: "보스 1", anims: [["MOVE", "spine/monster_boss_1_move.gif"]] },
+          { name: "보스 2", anims: [["MOVE", "spine/monster_boss_2_move.gif"]] },
+          { name: "보스 3", anims: [["MOVE", "spine/monster_boss_3_move.gif"]] }
+        ] },
+        { title: "에픽", kind: "spine", cols: 4, items: [
+          { name: "에픽 1", anims: [["MOVE", "spine/epic_1_move.gif"]] },
+          { name: "에픽 2", anims: [["MOVE", "spine/epic_2_move.gif"]] },
+          { name: "에픽 3", anims: [["MOVE", "spine/epic_3_move.gif"]] },
+          { name: "에픽 4", anims: [["MOVE", "spine/epic_4_move.gif"]] },
+          { name: "에픽 5", anims: [["MOVE", "spine/epic_5_move.gif"]] },
+          { name: "에픽 6", anims: [["MOVE", "spine/epic_6_move.gif"]] }
+        ] },
+        { title: "일반", kind: "spine", cols: 4, items: [
+          { name: "일반 1", anims: [["MOVE", "spine/monster_1_move.gif"]] },
+          { name: "일반 2", anims: [["MOVE", "spine/monster_2_move.gif"]] },
+          { name: "일반 3", anims: [["MOVE", "spine/monster_5_move.gif"]] }
+        ] }
+      ] },
+      { title: "UI / UX", groups: [
+        { title: "타이틀 · 로비", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "a1", name: "타이틀" }, { f: "a2", name: "로그인" }, { f: "a3", name: "스테이지 맵" },
+          { f: "d1", name: "스태미나 구매" }, { f: "c9", name: "설정" }
+        ] },
+        { title: "영웅", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "a6", name: "영웅 목록" }, { f: "a7", name: "보유 영웅" }, { f: "a8", name: "영웅 상세 · 일반" },
+          { f: "a9", name: "영웅 상세 · 일반 2" }, { f: "b1", name: "영웅 상세 · 희귀" }, { f: "b2", name: "영웅 상세 · 영웅" },
+          { f: "b3", name: "영웅 상세 · 전설" }, { f: "b4", name: "영웅 상세 · 신화" }
+        ] },
+        { title: "유물 · 보물", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "b9", name: "유물 목록" }, { f: "c1", name: "유물 상세" }, { f: "c2", name: "광고 보상" },
+          { f: "c3", name: "보물 상자" }, { f: "c4", name: "보물 뽑기" }, { f: "c5", name: "보물 뽑기 결과" },
+          { f: "c6", name: "누적 보상" }, { f: "c7", name: "확률 정보" }, { f: "c8", name: "확률 정보 2" }
+        ] },
+        { title: "상점", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "a4", name: "VIP 상점" }, { f: "a5", name: "첫 결제 보너스" }, { f: "b5", name: "패키지" },
+          { f: "b6", name: "일일 상점" }, { f: "b7", name: "재화 상점" }, { f: "b8", name: "재료 상점" }
+        ] },
+        { title: "인게임", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "d2", name: "전투" }, { f: "d3", name: "유닛 배치" }, { f: "d4", name: "미션" },
+          { f: "d5", name: "현상금" }, { f: "d6", name: "현상금 진행" }, { f: "d7", name: "마석 채굴" },
+          { f: "d8", name: "강화" }, { f: "d9", name: "운빨" }, { f: "e1", name: "웨이브 성공" },
+          { f: "e2", name: "전투 2" }, { f: "e3", name: "최종 보상" }
+        ] }
+      ] },
+      { title: "UI 연출", groups: [
+        { title: "인게임 연출", kind: "spine", fx: true, cols: 4, items: [
+          { name: "보스 출현", anims: [["GIF", "spine/fx-boss.gif"]] },
+          { name: "초월 소환", anims: [["GIF", "spine/fx-transcend.gif"]] },
+          { name: "소환 레벨업", anims: [["GIF", "spine/fx-summon-levelup.gif"]] },
+          { name: "게임 종료", anims: [["GIF", "spine/fx-game-end.gif"]] }
+        ] }
+      ] }
+    ]
   },
   {
     id: "mad-truck", title: "매드 트럭", ko: "",
-    genre: "머지 디펜스", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    genre: "머지 디펜스", year: "", role: "UI/UX · UI 연출 · 광고 · 스토어 배너", tools: "",
     orient: "portrait", hue: [32, 90], cover: "", icon: "images/mad-truck/icon.jpg",
-    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
-    screens: []
+    summary: "UI / UX / UI 연출 / 광고 , 스토어배너",
+    screens: [],
+    dir: "images/mad-truck/",
+    strip: ["a1", "a3", "a4", "b1", "b3"],
+    sections: [
+      { title: "UI / UX", groups: [
+        { title: "로비", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "a1", name: "스테이지 로비" }, { f: "a2", name: "튜토리얼" }, { f: "b4", name: "강화 카드" },
+          { f: "b5", name: "강화 카드 선택" }, { f: "b6", name: "VIP 패키지" }, { f: "b7", name: "설정" }, { f: "b8", name: "설정 · 끄기" }
+        ] },
+        { title: "인게임", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "a3", name: "전투" }, { f: "a4", name: "카드 선택" }, { f: "a5", name: "일시 정지" },
+          { f: "a6", name: "VIP 제안 · 2배속" }, { f: "a7", name: "광고 보상" }, { f: "a8", name: "유닛 배치" }, { f: "a9", name: "유닛 합성" }
+        ] }
+      ] },
+      { title: "UI 연출", groups: [
+        { title: "인게임 연출", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "b1", name: "보스 등장" }, { f: "b2", name: "부스터" }, { f: "b3", name: "승리" }
+        ] }
+      ] }
+    ]
   },
   {
     id: "block-the-gate", title: "입구 틀어 막기", ko: "",
-    genre: "전략 타워 디펜스", year: "연도 입력", role: "담당 역할 입력", tools: "사용 툴 입력",
+    genre: "전략 타워 디펜스", year: "", role: "UI/UX · UI 연출 · 광고 · 스토어 배너", tools: "",
     orient: "portrait", hue: [44, 232], cover: "", icon: "images/block-the-gate/icon.jpg",
-    summary: "프로젝트 개요를 2~3문장으로 적어 주세요. 어떤 화면을 맡았는지, 어떤 문제를 어떻게 풀었는지를 쓰면 좋습니다.",
-    screens: []
+    summary: "UI / UX / UI 연출 / 광고 , 스토어배너",
+    screens: [],
+    dir: "images/block-the-gate/",
+    strip: ["a1", "a2", "b2", "c6", "d2"],
+    sections: [
+      { title: "UI 연출", groups: [
+        { title: "화면 연출", kind: "spine", fx: true, cols: 5, stageRatio: "9 / 16", items: [
+          { name: "뽑기", anims: [["GIF", "fx/fx-gacha.gif"]] },
+          { name: "카드 선택", anims: [["GIF", "fx/fx-card.gif"]] },
+          { name: "미네랄 채굴", anims: [["GIF", "fx/fx-mineral.gif"]] },
+          { name: "상점", anims: [["GIF", "fx/fx-shop.gif"]] },
+          { name: "VIP", anims: [["GIF", "fx/fx-vip.gif"]] }
+        ] }
+      ] },
+      { title: "UI / UX", groups: [
+        { title: "로비", cols: 5, ratio: "1080 / 2340", items: [
+          { f: "a1", name: "타이틀" }, { f: "a2", name: "로비" }, { f: "a3", name: "플레이어 정보" },
+          { f: "a4", name: "아바타" }, { f: "a7", name: "난이도 랭킹" }, { f: "b1", name: "난이도 변경" },
+          { f: "a8", name: "설정" }, { f: "a9", name: "업데이트 안내" }, { f: "d2", name: "배틀 패스" }
+        ] },
+        { title: "상점", cols: 5, ratio: "1080 / 2340", items: [
+          { f: "a5", name: "VIP 패키지" }, { f: "a6", name: "첫 결제 보너스" }, { f: "b2", name: "패키지" },
+          { f: "b3", name: "일일 상점" }, { f: "b4", name: "다이아 상점" }, { f: "b5", name: "재화 상점" }
+        ] },
+        { title: "유닛 · 보물", cols: 5, ratio: "1080 / 2340", items: [
+          { f: "b6", name: "유닛 목록" }, { f: "b7", name: "칩 상세" }, { f: "b8", name: "보물 상자" }, { f: "b9", name: "보물 상자 진행" }
+        ] },
+        { title: "인게임", cols: 5, ratio: "1080 / 2340", items: [
+          { f: "c1", name: "전투 시작" }, { f: "c2", name: "웨이브" }, { f: "c3", name: "골드 부족" },
+          { f: "c4", name: "현상금" }, { f: "c5", name: "조합" }, { f: "c6", name: "카드 선택" },
+          { f: "c7", name: "채굴" }, { f: "c8", name: "강화" }, { f: "c9", name: "보스 정보" }, { f: "d1", name: "최종 결과" }
+        ] }
+      ] }
+    ]
   },
   {
     id: "marine-too-strong", title: "마린이 너무 강함", ko: "",
@@ -516,6 +760,8 @@ const companies = [
   { name: "Act Seven", period: "2023 – 2024", ids: ["gotcha", "dragon-slayer", "eternal-heroes", "sonyeo-chongsa"] },
   { name: "Studio B Side", period: "2020 – 2022", ids: ["counter-side"] }
 ];
+// The Claude-hosted copy has a file limit, so it ships only the smaller preview images
+const LITE = !/(github\.io|localhost)$/.test(location.hostname);
 const byId = id => projects.find(p => p.id === id);
 const ordered = companies.flatMap(c => c.ids.map(byId));
 const companyOf = p => companies.find(c => c.ids.includes(p.id));
@@ -649,7 +895,7 @@ function renderDetail(p) {
       <a href="#${prev.id}"><small>이전 프로젝트</small><b>${esc(prev.title)}</b></a>
       <a href="#${next.id}"><small>다음 프로젝트</small><b>${esc(next.title)}</b></a>
     </nav>`;
-  app.querySelectorAll(".tile button").forEach(b => b.addEventListener("click", () => openLightbox(+b.dataset.i)));
+  app.querySelectorAll(".tile button, button.spine-stage").forEach(b => b.addEventListener("click", () => openLightbox(+b.dataset.i)));
   app.querySelectorAll("figure:not(.tile)").forEach(f => {
     f.querySelector(".shot").addEventListener("click", () => {
       const s = p.screens[+f.dataset.n];
@@ -667,13 +913,14 @@ function renderSections(p) {
     const count = sec.groups.reduce((n, g) => n + g.items.length, 0);
     return `<section class="sec">
       <div class="sec-head"><h2>${esc(sec.title)}</h2><span>${count}</span></div>
-      ${sec.groups.map(g => `
+      ${sec.groups.map(g => g.kind === "spine" ? renderSpines(p, g) : `
         <div class="grp">
           <div class="grp-head"><h3>${esc(g.title)}</h3>${g.note ? `<p>${esc(g.note)}</p>` : ""}</div>
           <div class="tiles${g.lead ? " lead" : ""}" data-cols="${g.cols}" style="--cols:${g.cols}">
             ${g.items.map((it, k) => {
-              const i = lbItems.push({ src: p.dir + it.f + ".jpg", name: it.name, group: g.title }) - 1;
-              const src = p.dir + it.f + (g.lead && k === 0 ? ".jpg" : "-t.jpg");
+              const full = p.dir + it.f + (LITE ? "-t.jpg" : ".jpg");
+              const i = lbItems.push({ src: full, name: it.name, group: g.title }) - 1;
+              const src = g.lead && k === 0 ? full : p.dir + it.f + "-t.jpg";
               return `<figure class="tile">
                 <button type="button" data-i="${i}" aria-label="${esc(it.name)} 크게 보기"><img src="${src}" alt="${esc(g.title + " " + it.name)}" loading="lazy" style="aspect-ratio:${g.ratio}"></button>
                 <figcaption>${esc(it.name)}</figcaption>
@@ -684,6 +931,43 @@ function renderSections(p) {
     </section>`;
   }).join("");
 }
+
+// Spine animation cards; chips switch between the character's animations
+function renderSpines(p, g) {
+  return `
+    <div class="grp">
+      <div class="grp-head"><h3>${esc(g.title)}</h3>${g.note ? `<p>${esc(g.note)}</p>` : ""}</div>
+      <div class="spines${g.fx ? " fx" : ""}" style="--cols:${g.cols}">
+        ${g.items.map(it => {
+          const img = `<img src="${esc(p.dir + it.anims[0][1])}" alt="${esc(it.name)} ${g.fx ? "연출" : esc(it.anims[0][0]) + " 애니메이션"}" loading="lazy">`;
+          // UI effects open in the lightbox; spines switch animations with chips
+          const ratio = g.stageRatio ? ` style="aspect-ratio:${g.stageRatio}"` : "";
+          const stage = g.fx
+            ? `<button type="button" class="spine-stage"${ratio} data-i="${lbItems.push({ src: p.dir + it.anims[0][1], name: it.name, group: g.title }) - 1}" aria-label="${esc(it.name)} 크게 보기">${img}</button>`
+            : `<div class="spine-stage"${ratio}>${img}</div>`;
+          const tags = g.fx ? "" : it.anims.length > 1
+            ? `<span class="chips">${it.anims.map(([label, f], k) =>
+                `<button type="button" class="chip" aria-pressed="${k === 0}" data-src="${esc(p.dir + f)}" data-label="${esc(label)}">${esc(label)}</button>`).join("")}</span>`
+            : `<span class="chip-label">${esc(it.anims[0][0])}</span>`;
+          return `
+          <figure class="spine">
+            ${stage}
+            <figcaption><b>${esc(it.name)}</b>${tags}</figcaption>
+          </figure>`;
+        }).join("")}
+      </div>
+    </div>`;
+}
+
+app.addEventListener("click", e => {
+  const chip = e.target.closest(".chip");
+  if (!chip) return;
+  const card = chip.closest(".spine");
+  const img = card.querySelector(".spine-stage img");
+  img.src = chip.dataset.src;
+  img.alt = `${card.querySelector("b").textContent} ${chip.dataset.label} 애니메이션`;
+  card.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === chip));
+});
 
 let lbItems = [], lbIndex = 0;
 function openLightbox(i) {
