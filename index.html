@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Game UI Designer Jeon Sang Cheol · HOLZ, GAKE, Act Seven, Studio B Side에서 작업한 모바일 게임 11개의 UI 포트폴리오">
+<meta name="description" content="Game UI Designer Jeon Sang Cheol · GAKE, Act Seven, Studio B Side 실무와 개인작업물을 담은 모바일 게임 12개의 UI 포트폴리오">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Game UI Portfolio (Jeon Sang Cheol)">
-<meta property="og:description" content="Game UI Designer Jeon Sang Cheol · HOLZ, GAKE, Act Seven, Studio B Side에서 작업한 모바일 게임 11개의 UI 포트폴리오">
+<meta property="og:description" content="Game UI Designer Jeon Sang Cheol · GAKE, Act Seven, Studio B Side 실무와 개인작업물을 담은 모바일 게임 12개의 UI 포트폴리오">
 <meta property="og:image" content="https://melldongame.github.io/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -807,13 +807,50 @@ const projects = [
         ] }
       ] }
     ]
+  },
+  {
+    id: "pixel-knight", title: "Pixel Knight", ko: "",
+    genre: "방치형 RPG", year: "", role: "UI/UX · UI 연출", tools: "", status: "개발 중단 · 미출시",
+    orient: "portrait", hue: [140, 200], cover: "", icon: "images/pixel-knight/icon.jpg",
+    summary: "UI / UX / UI 연출",
+    screens: [],
+    dir: "images/pixel-knight/",
+    strip: ["a1", "b7", "c3", "d4", "d8"],
+    sections: [
+      { title: "UI / UX", groups: [
+        { title: "메인 · 성장", cols: 5, ratio: "1080 / 1920", items: [
+          { f: "a1", name: "메인" }, { f: "a2", name: "레벨업" }, { f: "a7", name: "메뉴" },
+          { f: "b5", name: "오프라인 보상" }, { f: "a8", name: "절전 모드" }
+        ] },
+        { title: "팝업", cols: 5, ratio: "1080 / 1920", items: [
+          { f: "a3", name: "광고 버프" }, { f: "a4", name: "광고 버프 활성" }, { f: "a5", name: "일일 미션" },
+          { f: "a6", name: "반복 미션" }, { f: "a9", name: "다이아 부족" }, { f: "b1", name: "패배 안내" },
+          { f: "b2", name: "우편함" }, { f: "b3", name: "공지 사항" }, { f: "b4", name: "업데이트 안내" }, { f: "b6", name: "7일 로그인" }
+        ] },
+        { title: "진화", cols: 5, ratio: "1080 / 1920", items: [
+          { f: "b7", name: "진화" }, { f: "b8", name: "승급 확인" }, { f: "b9", name: "진화 성공" }
+        ] },
+        { title: "동료 · 스킬 · 장비 · 유물", cols: 5, ratio: "1080 / 1920", items: [
+          { f: "c1", name: "동료" }, { f: "c2", name: "동료 상세" }, { f: "c3", name: "스킬" },
+          { f: "c4", name: "스킬 상세" }, { f: "c5", name: "장비" }, { f: "c6", name: "유물" },
+          { f: "c7", name: "유물 상세" }, { f: "d7", name: "영웅" }
+        ] },
+        { title: "소환 · 상점", cols: 5, ratio: "1080 / 1920", items: [
+          { f: "c9", name: "소환 상점" }, { f: "c8", name: "소환 확률" }, { f: "d1", name: "소환 결과" },
+          { f: "d2", name: "광고 소환" }, { f: "d3", name: "마법 솥" }, { f: "d8", name: "룰렛" }
+        ] },
+        { title: "던전 · 랭킹", cols: 5, ratio: "1080 / 1920", items: [
+          { f: "d4", name: "던전" }, { f: "d5", name: "EXP 던전" }, { f: "d6", name: "보상 획득" }, { f: "d9", name: "랭킹" }
+        ] }
+      ] }
+    ]
   }
 ];
 
 // Companies, newest first. Projects show in the order listed in ids.
 const companies = [
-  { name: "HOLZ", period: "2026", ids: ["poker-random-arena"] },
-  { name: "GAKE", period: "2024 – 2026", ids: ["marine-too-strong", "block-the-gate", "mad-truck", "surprise-defense", "cat-fortress"] },
+  { name: "개인작업물", period: "", ids: ["poker-random-arena"] },
+  { name: "GAKE", period: "2024 – 2026", ids: ["marine-too-strong", "block-the-gate", "mad-truck", "pixel-knight", "surprise-defense", "cat-fortress"] },
   { name: "Act Seven", period: "2023 – 2024", ids: ["gotcha", "dragon-slayer", "eternal-heroes", "sonyeo-chongsa"] },
   { name: "Studio B Side", period: "2020 – 2022", ids: ["counter-side"] }
 ];
@@ -926,7 +963,7 @@ function renderDetail(p) {
   const prev = ordered[(i - 1 + ordered.length) % ordered.length];
   const next = ordered[(i + 1) % ordered.length];
   const co = companyOf(p);
-  const sub = [p.ko, co && `${co.name} · ${co.period}`].filter(Boolean).join(" · ");
+  const sub = [p.ko, co && co.name, co && co.period].filter(Boolean).join(" · ");
   app.innerHTML = `
     <a class="back" href="#">← 전체 프로젝트</a>
     <section class="d-head">
@@ -940,7 +977,7 @@ function renderDetail(p) {
       ? `<div class="strip" style="${stripBg(p)}">${p.strip.map(f => `<img src="${esc(p.dir + f + "-t.jpg")}" alt="${esc(p.title)} 화면">`).join("")}</div>`
       : shot(p, { kind: "title", name: "타이틀" }, { orient: "landscape", src: p.cover, crop: true })}
     <dl class="meta">
-      ${[["Genre", p.genre], ["Role", p.role], ["Year", p.year], ["Tools", p.tools]].filter(([, v]) => v)
+      ${[["Genre", p.genre], ["Role", p.role], ["Year", p.year], ["Tools", p.tools], ["Status", p.status]].filter(([, v]) => v)
         .map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("")}
     </dl>
     ${p.summary ? `<section class="overview">
