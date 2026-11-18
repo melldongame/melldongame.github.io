@@ -33,18 +33,19 @@ img { max-width: 100%; }
   --muted: #697068;
   --line: #DCE0D9;
   --accent: #2E55E6;
+  --mark: #D4432B;
   --font-display: "Archivo", "IBM Plex Sans KR", "Helvetica Neue", Arial, sans-serif;
   --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0F1110; --surface: #181B19; --fg: #ECEEE9; --muted: #8F968D; --line: #2A2F2B; --accent: #8199FF;
+    --bg: #0F1110; --surface: #181B19; --fg: #ECEEE9; --muted: #8F968D; --line: #2A2F2B; --accent: #8199FF; --mark: #FF7D63;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0F1110; --surface: #181B19; --fg: #ECEEE9; --muted: #8F968D; --line: #2A2F2B; --accent: #8199FF;
+  --bg: #0F1110; --surface: #181B19; --fg: #ECEEE9; --muted: #8F968D; --line: #2A2F2B; --accent: #8199FF; --mark: #FF7D63;
   color-scheme: dark;
 }
 
@@ -87,6 +88,36 @@ a { color: inherit; }
 }
 .intro p { margin: 0; color: var(--muted); max-width: 52ch; }
 .count { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* Front: intro quote + contacts, then career list */
+.profile { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 32px 64px; padding-block: 56px 48px; align-items: start; }
+.intro-q { border-left: 3px solid var(--fg); padding-left: 32px; display: grid; gap: 2px; font-size: 16px; line-height: 1.75; max-width: 46ch; }
+.intro-q h1 { font-family: var(--font-body); font-size: inherit; font-weight: 400; line-height: inherit; margin: 0; }
+.intro-q h1 b { font-weight: 700; }
+.intro-q p { margin: 0; }
+.contact-list { margin: 0; padding-left: 20px; display: grid; gap: 10px; font-size: 16px; }
+.contact-list b { font-weight: 700; }
+.contact-list span { user-select: all; }
+.exp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.6fr); gap: 20px 48px; padding-block: 44px 56px; border-top: 1px solid var(--line); }
+.exp-label { display: grid; gap: 14px; align-content: start; }
+.exp-label h2 { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(22px, 2.4vw, 26px); line-height: 1.3; letter-spacing: -0.01em; color: var(--muted); margin: 0; max-width: 11ch; }
+.exp-label span { color: var(--muted); font-size: 15px; }
+.exp-total { margin: 0 0 8px; color: var(--mark); font-size: 17px; font-weight: 600; }
+.exp-item { padding-block: 16px 18px; }
+.exp-item + .exp-item { border-top: 1px solid var(--line); }
+.exp-item h3 { margin: 0 0 12px; font-size: 17px; font-weight: 400; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.exp-item h3 b { font-weight: 700; }
+.exp-item .sep { color: var(--muted); }
+.exp-item .period { color: var(--muted); font-size: 15px; }
+.exp-item ul { margin: 0; padding-left: 24px; display: grid; gap: 8px; color: var(--muted); font-size: 15px; }
+.exp-item a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.exp-item a:hover { color: var(--accent); text-decoration-color: currentColor; }
+.works-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 44px; margin-bottom: 36px; border-top: 1px solid var(--line); }
+.works-head h2 { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(22px, 2.4vw, 26px); color: var(--muted); margin: 0; }
+@media (max-width: 760px) {
+  .profile, .exp { grid-template-columns: 1fr; }
+  .intro-q { padding-left: 20px; }
+}
 
 /* App icon shelf, Google Play style */
 .apps { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 160px)); gap: 36px 28px; }
@@ -877,12 +908,27 @@ const projects = [
   }
 ];
 
+// Front section: intro, contacts, career summary
+const profile = {
+  lead: "게임 UI 디자이너 Jeon Sang Cheol",
+  intro: [
+    "글로벌 라이브 서비스부터 방치형 · 디펜스 장르까지 모바일 게임 UI를 만들어 왔습니다.",
+    "UI/UX 설계와 UI 연출, 캐릭터 스파인, 광고 · 스토어 배너까지 게임 화면에 필요한 작업을 처음부터 끝까지 맡아 왔습니다."
+  ],
+  contacts: [["이름", "Jeon Sang Cheol"], ["이메일", "melldon@naver.com"], ["포트폴리오", "melldongame.github.io"]],
+  total: "총 경력 6년 3개월"
+};
+
 // Companies, newest first. Projects show in the order listed in ids.
+// role and notes feed the experience list; entries without a period are left out of it.
 const companies = [
   { name: "개인작업물", period: "", ids: ["poker-random-arena", "pixel-tank"] },
-  { name: "GAKE", period: "2024 – 2026", ids: ["marine-too-strong", "block-the-gate", "mad-truck", "pixel-knight", "surprise-defense", "cat-fortress"] },
-  { name: "Act Seven", period: "2023 – 2024", ids: ["gotcha", "dragon-slayer", "eternal-heroes", "sonyeo-chongsa"] },
-  { name: "Studio B Side", period: "2020 – 2022", ids: ["counter-side"] }
+  { name: "GAKE", period: "2024 – 2026", role: "", ids: ["marine-too-strong", "block-the-gate", "mad-truck", "pixel-knight", "surprise-defense", "cat-fortress"],
+    notes: ["방치형 · 디펜스 게임 UI/UX, UI 연출, 캐릭터 스파인", "광고 · 스토어 배너 제작"] },
+  { name: "Act Seven", period: "2023 – 2024", role: "", ids: ["gotcha", "dragon-slayer", "eternal-heroes", "sonyeo-chongsa"],
+    notes: ["방치형 RPG · 타워 디펜스 UI/UX 전체", "광고 · 스토어 배너 제작"] },
+  { name: "Studio B Side", period: "2020 – 2022", role: "", ids: ["counter-side"],
+    notes: ["글로벌 라이브 서비스 운영 UI", "이벤트 · 채용 배너, 아이콘 리소스 제작"] }
 ];
 // The Claude-hosted copy has a file limit, so it ships only the smaller preview images
 const LITE = !/(github\.io|localhost)$/.test(location.hostname);
@@ -926,11 +972,30 @@ function icon(p) {
 function renderIndex() {
   document.title = "Game UI Portfolio (Jeon Sang Cheol)";
   app.innerHTML = `
-    <section class="intro">
-      <span class="count">Projects ${String(projects.length).padStart(2, "0")}</span>
-      <h1>플레이어가 먼저 이해하는 화면을 만듭니다</h1>
-      <p>모바일 게임 UI 디자이너입니다. 아이콘을 누르면 프로젝트별 화면 설계를 볼 수 있습니다.</p>
+    <section class="profile">
+      <div class="intro-q">
+        <h1><b>${esc(profile.lead)}</b>입니다.</h1>
+        ${profile.intro.map(t => `<p>${esc(t)}</p>`).join("")}
+      </div>
+      <ul class="contact-list">
+        ${profile.contacts.map(([k, v]) => `<li><b>${esc(k)}:</b> <span>${esc(v)}</span></li>`).join("")}
+      </ul>
     </section>
+    <section class="exp">
+      <div class="exp-label"><h2>Professional Experience</h2><span>경력 사항</span></div>
+      <div class="exp-body">
+        ${profile.total ? `<p class="exp-total">${esc(profile.total)}</p>` : ""}
+        ${companies.filter(c => c.period).map(c => `
+          <article class="exp-item">
+            <h3><b>${esc(c.name)}</b>${c.role ? `<span class="sep">|</span><span>${esc(c.role)}</span>` : ""}<span class="period">(${esc(c.period.replace("–", "~"))})</span></h3>
+            <ul>
+              ${(c.notes || []).map(n => `<li>${esc(n)}</li>`).join("")}
+              <li>참여 프로젝트: ${c.ids.map(byId).map(p => `<a href="#${p.id}">${esc(p.title)}</a>`).join(", ")}</li>
+            </ul>
+          </article>`).join("")}
+      </div>
+    </section>
+    <div class="works-head"><h2>Works</h2><span class="count">Projects ${String(projects.length).padStart(2, "0")}</span></div>
     ${companies.map(c => `
       <section class="company">
         <header class="co-head"><h2>${esc(c.name)}</h2><span>${esc(c.period)}</span></header>
