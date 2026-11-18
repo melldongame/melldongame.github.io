@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Game UI Designer Jeon Sang Cheol · GAKE, Act Seven, Studio B Side 실무와 개인작업물을 담은 모바일 게임 12개의 UI 포트폴리오">
+<meta name="description" content="Game UI Designer Jeon Sang Cheol · GAKE, Act Seven, Studio B Side 실무와 개인작업물을 담은 모바일 게임 13개의 UI 포트폴리오">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Game UI Portfolio (Jeon Sang Cheol)">
-<meta property="og:description" content="Game UI Designer Jeon Sang Cheol · GAKE, Act Seven, Studio B Side 실무와 개인작업물을 담은 모바일 게임 12개의 UI 포트폴리오">
+<meta property="og:description" content="Game UI Designer Jeon Sang Cheol · GAKE, Act Seven, Studio B Side 실무와 개인작업물을 담은 모바일 게임 13개의 UI 포트폴리오">
 <meta property="og:image" content="https://melldongame.github.io/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -121,7 +121,7 @@ a { color: inherit; }
 .pv-meta { display: grid; gap: 2px; padding: 4px 2px 2px; }
 .pv-meta b { font-family: var(--font-display); font-size: 15px; }
 .pv-meta span { font-size: 12px; color: var(--muted); }
-.pv-strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; padding: 10px; border-radius: 6px; }
+.pv-strip { display: grid; grid-template-columns: repeat(var(--n, 5), minmax(0, 56px)); justify-content: center; gap: 6px; padding: 10px; border-radius: 6px; }
 .pv-strip img { aspect-ratio: 1080 / 2400; border-radius: 4px; }
 .pv-empty { display: grid; place-items: center; aspect-ratio: 16 / 9; border-radius: 6px; background: var(--bg); color: var(--muted); font-size: 13px; }
 .pv-empty .icon { width: 72px; box-shadow: none; }
@@ -246,7 +246,7 @@ button.spine-stage:focus-visible { outline: 2px solid var(--accent); outline-off
 @media (max-width: 720px) { .spines { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; } }
 
 /* Hero strip of phone screens for portrait games */
-.strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(8px, 1.6vw, 20px); padding: clamp(16px, 3.2vw, 44px); border-radius: 6px; }
+.strip { display: grid; grid-template-columns: repeat(var(--n, 5), minmax(0, 200px)); justify-content: center; gap: clamp(8px, 1.6vw, 20px); padding: clamp(16px, 3.2vw, 44px); border-radius: 6px; }
 .strip img { display: block; width: 100%; aspect-ratio: 1080 / 2400; object-fit: cover; border-radius: clamp(6px, 1vw, 12px); box-shadow: 0 16px 32px -14px rgba(0,0,0,.6); }
 @media (max-width: 640px) { .strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } .strip img:nth-child(n+4) { display: none; } }
 @media (prefers-reduced-motion: reduce) { .tile img { transition: none; } }
@@ -681,6 +681,14 @@ const projects = [
     dir: "images/mad-truck/",
     strip: ["a1", "a3", "a4", "b1", "b3"],
     sections: [
+      { title: "UI 연출", groups: [
+        { title: "카드 연출", kind: "spine", fx: true, cols: 5, stageRatio: "9 / 16", items: [
+          { name: "카드 오픈", anims: [["GIF", "fx/fx-card-open.gif"]] }
+        ] },
+        { title: "인게임 연출", cols: 5, ratio: "1080 / 2400", items: [
+          { f: "b1", name: "보스 등장" }, { f: "b2", name: "부스터" }, { f: "b3", name: "승리" }
+        ] }
+      ] },
       { title: "UI / UX", groups: [
         { title: "로비", cols: 5, ratio: "1080 / 2400", items: [
           { f: "a1", name: "스테이지 로비" }, { f: "a2", name: "튜토리얼" }, { f: "b4", name: "강화 카드" },
@@ -689,11 +697,6 @@ const projects = [
         { title: "인게임", cols: 5, ratio: "1080 / 2400", items: [
           { f: "a3", name: "전투" }, { f: "a4", name: "카드 선택" }, { f: "a5", name: "일시 정지" },
           { f: "a6", name: "VIP 제안 · 2배속" }, { f: "a7", name: "광고 보상" }, { f: "a8", name: "유닛 배치" }, { f: "a9", name: "유닛 합성" }
-        ] }
-      ] },
-      { title: "UI 연출", groups: [
-        { title: "인게임 연출", cols: 5, ratio: "1080 / 2400", items: [
-          { f: "b1", name: "보스 등장" }, { f: "b2", name: "부스터" }, { f: "b3", name: "승리" }
         ] }
       ] }
     ]
@@ -705,10 +708,14 @@ const projects = [
     summary: "UI / UX / UI 연출 / 광고 , 스토어배너",
     screens: [],
     dir: "images/block-the-gate/",
-    strip: ["a1", "a2", "b2", "c6", "d2"],
+    strip: ["a1", "fx/fx-summon.gif", "fx/fx-card-idle.gif", "fx/fx-card-open.gif", "fx/fx-produce.gif"],
     sections: [
       { title: "UI 연출", groups: [
         { title: "화면 연출", kind: "spine", fx: true, cols: 5, stageRatio: "9 / 16", items: [
+          { name: "소환", anims: [["GIF", "fx/fx-summon.gif"]] },
+          { name: "카드 대기", anims: [["GIF", "fx/fx-card-idle.gif"]] },
+          { name: "카드 오픈", anims: [["GIF", "fx/fx-card-open.gif"]] },
+          { name: "생산", anims: [["GIF", "fx/fx-produce.gif"]] },
           { name: "뽑기", anims: [["GIF", "fx/fx-gacha.gif"]] },
           { name: "카드 선택", anims: [["GIF", "fx/fx-card.gif"]] },
           { name: "미네랄 채굴", anims: [["GIF", "fx/fx-mineral.gif"]] },
@@ -809,6 +816,22 @@ const projects = [
     ]
   },
   {
+    id: "pixel-tank", title: "Pixel Tank", ko: "",
+    genre: "방치형 RPG", year: "", role: "UI 컨셉", tools: "",
+    orient: "portrait", hue: [96, 150], cover: "", icon: "images/pixel-tank/icon.jpg",
+    summary: "UI 컨셉 제작",
+    screens: [],
+    dir: "images/pixel-tank/",
+    strip: ["a1", "a2"],
+    sections: [
+      { title: "UI 컨셉", groups: [
+        { title: "화면", cols: 5, ratio: "1080 / 1920", items: [
+          { f: "a1", name: "인게임" }, { f: "a2", name: "팝업 프레임" }
+        ] }
+      ] }
+    ]
+  },
+  {
     id: "pixel-knight", title: "Pixel Knight", ko: "",
     genre: "방치형 RPG", year: "", role: "UI/UX · UI 연출", tools: "", status: "개발 중단 · 미출시",
     orient: "portrait", hue: [140, 200], cover: "", icon: "images/pixel-knight/icon.jpg",
@@ -817,6 +840,13 @@ const projects = [
     dir: "images/pixel-knight/",
     strip: ["a1", "b7", "c3", "d4", "d8"],
     sections: [
+      { title: "UI 연출", groups: [
+        { title: "상점 연출", kind: "spine", fx: true, cols: 5, stageRatio: "9 / 16", items: [
+          { name: "상점 1", anims: [["GIF", "fx/fx-shop-1.gif"]] },
+          { name: "상점 2", anims: [["GIF", "fx/fx-shop-2.gif"]] },
+          { name: "상점 3", anims: [["GIF", "fx/fx-shop-3.gif"]] }
+        ] }
+      ] },
       { title: "UI / UX", groups: [
         { title: "메인 · 성장", cols: 5, ratio: "1080 / 1920", items: [
           { f: "a1", name: "메인" }, { f: "a2", name: "레벨업" }, { f: "a7", name: "메뉴" },
@@ -849,7 +879,7 @@ const projects = [
 
 // Companies, newest first. Projects show in the order listed in ids.
 const companies = [
-  { name: "개인작업물", period: "", ids: ["poker-random-arena"] },
+  { name: "개인작업물", period: "", ids: ["poker-random-arena", "pixel-tank"] },
   { name: "GAKE", period: "2024 – 2026", ids: ["marine-too-strong", "block-the-gate", "mad-truck", "pixel-knight", "surprise-defense", "cat-fortress"] },
   { name: "Act Seven", period: "2023 – 2024", ids: ["gotcha", "dragon-slayer", "eternal-heroes", "sonyeo-chongsa"] },
   { name: "Studio B Side", period: "2020 – 2022", ids: ["counter-side"] }
@@ -882,7 +912,9 @@ function shot(p, s, { orient = s.orient || p.orient, src, crop } = {}) {
     <span class="label">${esc(s.name)}</span></div></div>`;
 }
 
-const stripBg = p => `background: linear-gradient(140deg, hsl(${p.hue[0]} 40% 16%), hsl(${p.hue[1]} 45% 32%));`;
+// Strip entries are screenshot ids ("a1") or animation paths ("fx/clip.gif")
+const stripSrc = (p, f) => p.dir + (f.includes(".") ? f : f + "-t.jpg");
+const stripBg = p =>`background: linear-gradient(140deg, hsl(${p.hue[0]} 40% 16%), hsl(${p.hue[1]} 45% 32%)); --n: ${p.strip.length};`;
 
 function icon(p) {
   if (p.icon) return `<div class="icon"><img src="${esc(p.icon)}" alt="${esc(p.title)} 앱 아이콘"></div>`;
@@ -934,7 +966,7 @@ function showPreview(p, anchor) {
     const co = companyOf(p);
     const picks = p.strip ? [] : (p.sections || []).map(s => s.groups[0].items[0]).slice(0, 3);
     pv.innerHTML = (p.strip
-      ? `<div class="pv-strip" style="${stripBg(p)}">${p.strip.map(f => `<img src="${esc(p.dir + f + "-t.jpg")}" alt="">`).join("")}</div>`
+      ? `<div class="pv-strip" style="${stripBg(p)}">${p.strip.map(f => `<img src="${esc(stripSrc(p, f))}" alt="">`).join("")}</div>`
       : p.cover
       ? `<div class="pv-cover"><img src="${esc(p.cover)}" alt=""></div>`
       : `<div class="pv-empty">${icon(p)}<span>상세 화면 준비 중</span></div>`) +
@@ -974,7 +1006,7 @@ function renderDetail(p) {
       </div>
     </section>
     ${p.strip
-      ? `<div class="strip" style="${stripBg(p)}">${p.strip.map(f => `<img src="${esc(p.dir + f + "-t.jpg")}" alt="${esc(p.title)} 화면">`).join("")}</div>`
+      ? `<div class="strip" style="${stripBg(p)}">${p.strip.map(f => `<img src="${esc(stripSrc(p, f))}" alt="${esc(p.title)} 화면">`).join("")}</div>`
       : shot(p, { kind: "title", name: "타이틀" }, { orient: "landscape", src: p.cover, crop: true })}
     <dl class="meta">
       ${[["Genre", p.genre], ["Role", p.role], ["Year", p.year], ["Tools", p.tools], ["Status", p.status]].filter(([, v]) => v)
