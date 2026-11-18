@@ -276,6 +276,10 @@ button.spine-stage { display: block; width: 100%; padding: 0; cursor: zoom-in; }
 button.spine-stage:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 @media (max-width: 720px) { .spines { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; } }
 
+/* Hero gameplay video */
+.hero-video { border-radius: 6px; overflow: hidden; background: #000; aspect-ratio: 16 / 9; max-width: 100%; }
+.hero-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
 /* Hero strip of phone screens for portrait games */
 .strip { display: grid; grid-template-columns: repeat(var(--n, 5), minmax(0, 200px)); justify-content: center; gap: clamp(8px, 1.6vw, 20px); padding: clamp(16px, 3.2vw, 44px); border-radius: 6px; }
 .strip img { display: block; width: 100%; aspect-ratio: 1080 / 2400; object-fit: cover; border-radius: clamp(6px, 1vw, 12px); box-shadow: 0 16px 32px -14px rgba(0,0,0,.6); }
@@ -816,6 +820,7 @@ const projects = [
     id: "poker-random-arena", title: "포커 랜덤 아레나", ko: "",
     genre: "포커 디펜스", year: "", role: "아트 전체", tools: "",
     orient: "landscape", hue: [152, 4], cover: "images/poker-random-arena/a1.jpg", icon: "images/poker-random-arena/icon.jpg",
+    video: "images/poker-random-arena/poker.mp4",
     summary: "아트 전체 (캐릭터, 몬스터, 맵, UI, 연출 등)",
     screens: [],
     dir: "images/poker-random-arena/",
@@ -1070,7 +1075,9 @@ function renderDetail(p) {
         ${sub ? `<span class="ko">${esc(sub)}</span>` : ""}
       </div>
     </section>
-    ${p.strip
+    ${p.video
+      ? `<div class="hero-video"><video src="${esc(p.video)}" poster="${esc(p.cover)}" autoplay muted loop playsinline aria-label="${esc(p.title)} 플레이 영상"></video></div>`
+      : p.strip
       ? `<div class="strip" style="${stripBg(p)}">${p.strip.map(f => `<img src="${esc(stripSrc(p, f))}" alt="${esc(p.title)} 화면">`).join("")}</div>`
       : shot(p, { kind: "title", name: "타이틀" }, { orient: "landscape", src: p.cover, crop: true })}
     <dl class="meta">
