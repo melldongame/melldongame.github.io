@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Game UI Designer Jeon Sang Cheol · GAKE, Act Seven, Studio B Side 실무와 개인작업물을 담은 모바일 게임 13개의 UI 포트폴리오">
+<meta name="description" content="Game UI Designer Jeon Sang Cheol · GAKE, Act Seven, Studio B Side 실무와 개인작업물을 담은 모바일 게임 14개의 UI 포트폴리오">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Game UI Portfolio (Jeon Sang Cheol)">
-<meta property="og:description" content="Game UI Designer Jeon Sang Cheol · GAKE, Act Seven, Studio B Side 실무와 개인작업물을 담은 모바일 게임 13개의 UI 포트폴리오">
+<meta property="og:description" content="Game UI Designer Jeon Sang Cheol · GAKE, Act Seven, Studio B Side 실무와 개인작업물을 담은 모바일 게임 14개의 UI 포트폴리오">
 <meta property="og:image" content="https://melldongame.github.io/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -290,7 +290,8 @@ button.spine-stage:focus-visible { outline: 2px solid var(--accent); outline-off
 
 /* Hero strip of phone screens for portrait games */
 .strip { display: grid; grid-template-columns: repeat(var(--n, 5), minmax(0, 200px)); justify-content: center; gap: clamp(8px, 1.6vw, 20px); padding: clamp(16px, 3.2vw, 44px); border-radius: 6px; }
-.strip img { display: block; width: 100%; aspect-ratio: 1080 / 2400; object-fit: cover; border-radius: clamp(6px, 1vw, 12px); box-shadow: 0 16px 32px -14px rgba(0,0,0,.6); }
+.promo { display: block; width: min(100%, 360px); aspect-ratio: 9 / 16; border-radius: 12px; background: #000; }
+.strip img, .strip video { display: block; width: 100%; aspect-ratio: 1080 / 2400; object-fit: cover; border-radius: clamp(6px, 1vw, 12px); box-shadow: 0 16px 32px -14px rgba(0,0,0,.6); }
 @media (max-width: 640px) { .strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } .strip img:nth-child(n+4) { display: none; } }
 @media (prefers-reduced-motion: reduce) { .tile img { transition: none; } }
 
@@ -859,6 +860,38 @@ const projects = [
     ]
   },
   {
+    id: "marine-survival", title: "마린생존기", ko: "",
+    genre: "방치형 RPG", year: "", role: "AI 1인 개발 · UI/UX · UI 연출 · 광고 · 스토어 배너", tools: "",
+    orient: "portrait", hue: [218, 30], cover: "", icon: "images/marine-survival/icon.jpg",
+    summary: "AI 1인 개발 / UI / UX / UI 연출 / 광고 , 스토어배너",
+    screens: [],
+    dir: "images/marine-survival/",
+    strip: ["a1", "a3", "promo.mp4", "b4", "c5"],
+    sections: [
+      { title: "광고 영상", groups: [
+        { title: "프로모션 영상", kind: "video", src: "promo.mp4", poster: "a1-t.jpg", note: "스토어 · 광고 집행용으로 제작한 세로형 프로모션 영상" }
+      ] },
+      { title: "UI / UX", groups: [
+        { title: "타이틀 · 메인", cols: 5, ratio: "1080 / 1920", items: [
+          { f: "a1", name: "타이틀" }, { f: "a2", name: "스토리 대화" }, { f: "a3", name: "메인 전투" }, { f: "a7", name: "절전 모드" }
+        ] },
+        { title: "팝업", cols: 5, ratio: "1080 / 1920", items: [
+          { f: "a4", name: "출석 보상" }, { f: "a5", name: "랭킹" }, { f: "a6", name: "버프" },
+          { f: "a8", name: "옵션" }, { f: "a9", name: "다이아 자동 획득" }, { f: "b6", name: "토벌" },
+          { f: "b7", name: "다이아 광산" }, { f: "b8", name: "자동 업그레이드" }, { f: "b9", name: "전투 회귀" }
+        ] },
+        { title: "상점 · 패스", cols: 5, ratio: "1080 / 1920", items: [
+          { f: "b1", name: "광고 제거" }, { f: "b2", name: "스페셜 패키지" }, { f: "b3", name: "다이아 상점" },
+          { f: "b4", name: "시즌 패스" }, { f: "b5", name: "VIP 패스" }, { f: "c4", name: "주간 상점" }
+        ] },
+        { title: "드론 · 무기 · 스킨 · 유물", cols: 5, ratio: "1080 / 1920", items: [
+          { f: "c1", name: "드론" }, { f: "c2", name: "드론 상세" }, { f: "c3", name: "무기" },
+          { f: "c5", name: "스킨" }, { f: "c6", name: "스킨 상세" }, { f: "c7", name: "유물" }
+        ] }
+      ] }
+    ]
+  },
+  {
     id: "pixel-tank", title: "Pixel Tank", ko: "",
     genre: "방치형 RPG", year: "", role: "UI 컨셉", tools: "",
     orient: "portrait", hue: [96, 150], cover: "", icon: "images/pixel-tank/icon.jpg",
@@ -942,7 +975,7 @@ const profile = {
 // role and notes feed the experience list; entries without a period are left out of it.
 const companies = [
   { name: "개인작업물", period: "", ids: ["poker-random-arena", "pixel-tank"] },
-  { name: "GAKE", period: "2024 – 2026", role: "", ids: ["marine-too-strong", "block-the-gate", "mad-truck", "pixel-knight", "surprise-defense", "cat-fortress"],
+  { name: "GAKE", period: "2024 – 2026", role: "", ids: ["marine-survival", "marine-too-strong", "block-the-gate", "mad-truck", "pixel-knight", "surprise-defense", "cat-fortress"],
     notes: ["디펜스 게임 UI/UX 전체, UI 연출, 캐릭터 스파인","광고 · 스토어 배너 제작"] },
   { name: "Act Seven", period: "2023 – 2024", role: "", ids: ["gotcha", "dragon-slayer", "eternal-heroes", "sonyeo-chongsa"],
     notes: ["방치형 RPG · 디펜스 게임 UI/UX 전체","광고 · 스토어 배너 제작"] },
@@ -1060,7 +1093,7 @@ function showPreview(p, anchor) {
     const co = companyOf(p);
     const picks = p.strip ? [] : (p.sections || []).map(s => s.groups[0].items[0]).slice(0, 3);
     pv.innerHTML = (p.strip
-      ? `<div class="pv-strip" style="${stripBg(p)}">${p.strip.map(f => `<img src="${esc(stripSrc(p, f))}" alt="">`).join("")}</div>`
+      ? `<div class="pv-strip" style="${stripBg(p)}">${p.strip.filter(f => !f.endsWith(".mp4")).map(f => `<img src="${esc(stripSrc(p, f))}" alt="">`).join("")}</div>`
       : p.cover
       ? `<div class="pv-cover"><img src="${esc(p.cover)}" alt=""></div>`
       : `<div class="pv-empty">${icon(p)}<span>상세 화면 준비 중</span></div>`) +
@@ -1102,7 +1135,9 @@ function renderDetail(p) {
     ${p.video
       ? `<div class="hero-video"><video src="${esc(p.video)}" poster="${esc(p.cover)}" autoplay muted loop playsinline aria-label="${esc(p.title)} 플레이 영상"></video></div>`
       : p.strip
-      ? `<div class="strip" style="${stripBg(p)}">${p.strip.map(f => `<img src="${esc(stripSrc(p, f))}" alt="${esc(p.title)} 화면">`).join("")}</div>`
+      ? `<div class="strip" style="${stripBg(p)}">${p.strip.map(f => f.endsWith(".mp4")
+        ? `<video src="${esc(p.dir + f)}" autoplay muted loop playsinline aria-label="${esc(p.title)} 영상"></video>`
+        : `<img src="${esc(stripSrc(p, f))}" alt="${esc(p.title)} 화면">`).join("")}</div>`
       : shot(p, { kind: "title", name: "타이틀" }, { orient: "landscape", src: p.cover, crop: true })}
     <dl class="meta">
       ${[["Genre", p.genre], ["Role", p.role], ["Year", p.year], ["Tools", p.tools], ["Status", p.status]].filter(([, v]) => v)
@@ -1132,10 +1167,14 @@ function renderDetail(p) {
 function renderSections(p) {
   lbItems = [];
   return p.sections.map(sec => {
-    const count = sec.groups.reduce((n, g) => n + g.items.length, 0);
+    const count = sec.groups.reduce((n, g) => n + (g.items ? g.items.length : 1), 0);
     return `<section class="sec">
       <div class="sec-head"><h2>${esc(sec.title)}</h2><span>${count}</span></div>
-      ${sec.groups.map(g => g.kind === "spine" ? renderSpines(p, g) : `
+      ${sec.groups.map(g => g.kind === "spine" ? renderSpines(p, g) : g.kind === "video" ? `
+        <div class="grp">
+          <div class="grp-head"><h3>${esc(g.title)}</h3>${g.note ? `<p>${esc(g.note)}</p>` : ""}</div>
+          <video class="promo" src="${esc(p.dir + g.src)}" poster="${esc(p.dir + g.poster)}" controls playsinline preload="metadata"></video>
+        </div>` : `
         <div class="grp">
           <div class="grp-head"><h3>${esc(g.title)}</h3>${g.note ? `<p>${esc(g.note)}</p>` : ""}</div>
           <div class="tiles${g.lead ? " lead" : ""}" data-cols="${g.cols}" style="--cols:${g.cols}">
